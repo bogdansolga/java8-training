@@ -6,16 +6,10 @@
 
     <parent>
         <groupId>com.socgen</groupId>
-        <artifactId>java8.training</artifactId>
+        <artifactId>s01</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>s01</artifactId>
+    <artifactId>e02-predicates</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>e01-java8-samples</module>
-        <module>e02-predicates</module>
-    </modules>
 </project>
