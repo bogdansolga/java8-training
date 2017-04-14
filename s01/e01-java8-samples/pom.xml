@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.socgen</groupId>
+        <groupId>com.sg</groupId>
         <artifactId>s01</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>

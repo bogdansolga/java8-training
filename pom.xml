@@ -3,13 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.socgen</groupId>
+    <groupId>com.sg</groupId>
     <artifactId>java8.training</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Java 8 training</name>
-    <description>Société Générale Java 8 training</description>
+    <description>SG Java 8 training</description>
 
     <modules>
         <module>domain-model</module>
@@ -30,12 +30,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.socgen</groupId>
-            <artifactId>domain-model</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jool</artifactId>

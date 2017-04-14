@@ -1,13 +1,13 @@
-package com.socgen.java8.training.predicate.service;
+package com.sg.java8.training.predicate.service;
 
-import com.socgen.java8.training.model.Product;
+import com.sg.java8.training.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * A simple service for managing {@link com.socgen.java8.training.model.Product} entities
+ * A simple service for managing {@link Product} entities
  *
  * @author bogdan.solga
  */

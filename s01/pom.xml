@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.socgen</groupId>
+        <groupId>com.sg</groupId>
         <artifactId>java8.training</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
@@ -18,4 +18,12 @@
         <module>e01-java8-samples</module>
         <module>e02-predicates</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.sg</groupId>
+            <artifactId>domain-model</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

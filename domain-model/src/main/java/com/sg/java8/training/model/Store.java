@@ -1,4 +1,4 @@
-package com.socgen.java8.training.model;
+package com.sg.java8.training.model;
 
 import java.util.Objects;
 import java.util.Set;
