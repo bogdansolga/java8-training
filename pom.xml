@@ -24,6 +24,8 @@
 
         <jool.version>0.9.12</jool.version>
 
+        <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
+
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
@@ -40,4 +42,28 @@
             <version>${jool.version}</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.compiler.plugin.version}</version>
+
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+
+                        <fork>true</fork>
+                        <optimize>true</optimize>
+
+                        <showWarnings>true</showWarnings>
+                        <meminitial>128m</meminitial>
+                        <maxmem>256m</maxmem>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>
