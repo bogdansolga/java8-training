@@ -12,6 +12,8 @@
     <description>Société Générale Java 8 training</description>
 
     <modules>
+        <module>domain-model</module>
+
         <module>s01</module>
         <module>s02</module>
         <module>s03</module>
@@ -26,6 +28,12 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.socgen</groupId>
+            <artifactId>domain-model</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jool</artifactId>
