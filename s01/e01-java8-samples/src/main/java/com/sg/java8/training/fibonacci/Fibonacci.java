@@ -1,4 +1,4 @@
-package com.socgen.java8.training.fibonacci;
+package com.sg.java8.training.fibonacci;
 
 import java.util.stream.IntStream;
 import java.util.stream.Stream;

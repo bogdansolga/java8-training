@@ -1,4 +1,4 @@
-package com.socgen.java8.training.integration;
+package com.sg.java8.training.integration;
 
 import java.util.ArrayList;
 import java.util.Arrays;

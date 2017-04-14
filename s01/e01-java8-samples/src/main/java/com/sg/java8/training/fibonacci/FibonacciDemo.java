@@ -1,4 +1,4 @@
-package com.socgen.java8.training.fibonacci;
+package com.sg.java8.training.fibonacci;
 
 /**
  * Computing the Fibonacci numbers in imperative and functional programming
