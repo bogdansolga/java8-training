@@ -46,7 +46,7 @@ public final class StoreSetup {
 
         monitors.add(new Product(5, "Samsung CF791", 500));
         monitors.add(new Product(6, "LG 32UD99", 550));
-        monitors.add(new Product(6, "Samsung CH711", 600));
+        monitors.add(new Product(7, "Samsung CH711", 600));
 
         return monitors;
     }
