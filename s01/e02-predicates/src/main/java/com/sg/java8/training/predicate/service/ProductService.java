@@ -2,7 +2,7 @@ package com.sg.java8.training.predicate.service;
 
 import com.sg.java8.training.model.Product;
 import com.sg.java8.training.model.Section;
-import com.sg.java8.training.predicate.bootstrap.StoreSetup;
+import com.sg.java8.training.bootstrap.StoreSetup;
 
 import java.util.List;
 import java.util.stream.Collectors;

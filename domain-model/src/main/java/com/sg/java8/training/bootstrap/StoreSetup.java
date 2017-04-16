@@ -1,4 +1,4 @@
-package com.sg.java8.training.predicate.bootstrap;
+package com.sg.java8.training.bootstrap;
 
 import com.sg.java8.training.model.Manager;
 import com.sg.java8.training.model.Product;
