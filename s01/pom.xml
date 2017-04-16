@@ -18,6 +18,7 @@
         <module>e01-java8-samples</module>
         <module>e02-predicates</module>
         <module>e03-consumers</module>
+        <module>e04-functions</module>
     </modules>
 
     <dependencies>
