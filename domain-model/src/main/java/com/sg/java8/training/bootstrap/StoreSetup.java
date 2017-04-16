@@ -12,7 +12,7 @@ import java.util.List;
 
 public final class StoreSetup {
 
-    private static Store STORE;
+    private static Store defaultStore;
 
     static {
         final Section tabletsSection = new Section(1, "Tablets", buildDefaultTablets());
@@ -21,13 +21,13 @@ public final class StoreSetup {
         final Manager john = new Manager(1, "John Doe");
         final Manager jane = new Manager(2, "Jane Charming");
 
-        STORE = new Store(1, "eMag", "Over there",
-                new HashSet<>(Arrays.asList(tabletsSection, monitorsSection)),
-                new HashSet<>(Arrays.asList(john, jane)));
+        defaultStore = new Store(1, "eMag", "Over there",
+                                 new HashSet<>(Arrays.asList(tabletsSection, monitorsSection)),
+                                 new HashSet<>(Arrays.asList(john, jane)));
     }
 
     public static Store getDefaultStore() {
-        return STORE;
+        return defaultStore;
     }
 
     private static List<Product> buildDefaultTablets() {
