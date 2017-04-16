@@ -15,12 +15,22 @@ public class PredicatesMain {
         simplePredicates();
 
         productPredicates();
+
+        sectionPredicates();
+
+        managerPredicates();
     }
 
     private static void simplePredicates() {
         final Predicate<Integer> isEven = number -> number %2 == 0;
+        final Predicate<Integer> isBiggerThan100 = number -> number > 100;
+
         System.out.println(isEven.test(7));
         System.out.println(isEven.test(8));
+
+        System.out.println(isEven.and(isBiggerThan100).test(130));
+
+        // TODO try other simple predicates - Integer, String, ...
     }
 
     private static void productPredicates() {
@@ -31,5 +41,15 @@ public class PredicatesMain {
         final ProductService productService = new ProductService();
         final List<Product> products = productService.getNexusTablets();
         System.out.println("There are " + products.size() + " Nexus tablets");
+
+        // TODO try other Product predicates
+    }
+
+    private static void sectionPredicates() {
+        // TODO try a few Section predicates
+    }
+
+    private static void managerPredicates() {
+        // TODO try a few Manager predicates
     }
 }
