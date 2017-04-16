@@ -5,54 +5,39 @@ import java.util.Set;
 
 public class Store extends AbstractEntity {
 
-    private int id;
+    private final int id;
+    private final String name;
+    private final String location;
+    private final Set<Section> storeSections;
+    private final Set<Manager> storeManagers;
 
-    private String name;
-
-    private String location;
-
-    private Set<StoreSection> storeSections;
-
-    private Set<Manager> storeManagers;
+    public Store(final int id, final String name, final String location,
+                 final Set<Section> storeSections, final Set<Manager> storeManagers) {
+        this.id = id;
+        this.name = name;
+        this.location = location;
+        this.storeSections = storeSections;
+        this.storeManagers = storeManagers;
+    }
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getLocation() {
         return location;
-    }
-
-    public void setLocation(final String location) {
-        this.location = location;
     }
 
     public Set<Manager> getStoreManagers() {
         return storeManagers;
     }
 
-    public void setStoreManagers(Set<Manager> storeManagers) {
-        this.storeManagers = storeManagers;
-    }
-
-    public Set<StoreSection> getStoreSections() {
+    public Set<Section> getStoreSections() {
         return storeSections;
-    }
-
-    public void setStoreSections(Set<StoreSection> storeSections) {
-        this.storeSections = storeSections;
     }
 
     @Override

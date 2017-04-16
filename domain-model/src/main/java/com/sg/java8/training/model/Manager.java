@@ -5,34 +5,20 @@ import java.util.Set;
 
 public class Manager extends AbstractEntity {
 
-    private int id;
+    private final int id;
+    private final String name;
 
-    private String name;
-
-    private Set<Store> stores;
+    public Manager(final int id, final String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<Store> getStores() {
-        return stores;
-    }
-
-    public void setStores(Set<Store> stores) {
-        this.stores = stores;
     }
 
     @Override
