@@ -1,11 +1,8 @@
-package com.sg.java8.training.predicate.service;
+package com.sg.java8.training.consumer.service;
 
 import com.sg.java8.training.model.Product;
 import com.sg.java8.training.model.Section;
 import com.sg.java8.training.bootstrap.StoreSetup;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * A simple service for managing {@link Product} entities

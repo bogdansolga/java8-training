@@ -1,7 +1,7 @@
-package com.sg.java8.training.predicate;
+package com.sg.java8.training.consumer;
 
 import com.sg.java8.training.model.Product;
-import com.sg.java8.training.predicate.service.ProductService;
+import com.sg.java8.training.consumer.service.ProductService;
 
 import java.util.function.Consumer;
 
