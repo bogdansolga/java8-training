@@ -8,7 +8,7 @@ public class Product extends AbstractEntity {
     private final String name;
     private final double price;
 
-    public Product(final int id, final String name, double price) {
+    public Product(final int id, final String name, final double price) {
         this.id = id;
         this.name = name;
         this.price = price;
