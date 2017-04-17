@@ -32,6 +32,8 @@ public class PredicatesMain {
 
         // TODO remove the elements of a collection - imperative and functional
 
+        // TODO using Predicates as methods and with more than one statements
+
         // TODO try other simple predicates - Integer, String, ...
     }
 

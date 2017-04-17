@@ -26,6 +26,8 @@ public class ConsumersMain {
         final Consumer<Integer> integerConsumer = number -> System.out.println(number);
         integerConsumer.accept(25);
 
+        // TODO using Consumers as methods and with more than one statements
+
         // TODO iterating over the values of a Collection
 
         // TODO try other simple consumers - String, Boolean, ...
