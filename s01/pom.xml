@@ -21,6 +21,8 @@
         <module>e03-consumers</module>
         <module>e04-functions</module>
         <module>e05-suppliers</module>
+
+        <module>e06-bi-functional-interfaces</module>
     </modules>
 
     <dependencies>
