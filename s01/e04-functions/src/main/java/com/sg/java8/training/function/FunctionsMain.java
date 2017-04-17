@@ -35,6 +35,20 @@ public class FunctionsMain {
 
         System.out.println(lowerCase.andThen(subString).apply("Testing functions chaining"));
 
+        // using Functions as methods
+        System.out.println(aFunctionAsAMethod().apply(20));
+
+        // using Functions with expanded body
+        final Function<String, String> processingFunction = value -> {
+            if (value.length() > 10) {
+                return value.toLowerCase();
+            } else {
+                value = value + " something";
+                return value.toUpperCase();
+            }
+        };
+        System.out.println(processingFunction.apply("there is"));
+
         // TODO try other simple Functions - String, Boolean, ...
     }
 
@@ -71,5 +85,9 @@ public class FunctionsMain {
 
     private static Consumer<String> printer() {
         return System.out::println;
+    }
+
+    private static Function<Integer, String> aFunctionAsAMethod() {
+        return value -> "The value is " + value;
     }
 }
