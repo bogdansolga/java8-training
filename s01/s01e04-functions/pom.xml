@@ -10,6 +10,6 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>e02-predicates</artifactId>
+    <artifactId>s01e04-functions</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 </project>

@@ -10,6 +10,6 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>e05-suppliers</artifactId>
+    <artifactId>s01e01-java8-samples</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 </project>

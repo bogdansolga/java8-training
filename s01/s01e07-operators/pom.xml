@@ -10,6 +10,6 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>e03-consumers</artifactId>
+    <artifactId>s01e07-operators</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 </project>

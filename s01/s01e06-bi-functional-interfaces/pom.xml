@@ -10,6 +10,6 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>e07-operators</artifactId>
+    <artifactId>s01e06-bi-functional-interfaces</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 </project>

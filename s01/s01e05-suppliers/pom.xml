@@ -10,6 +10,6 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>e06-bi-functional-interfaces</artifactId>
+    <artifactId>s01e05-suppliers</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 </project>
