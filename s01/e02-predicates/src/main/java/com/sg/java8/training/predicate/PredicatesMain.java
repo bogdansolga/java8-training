@@ -30,6 +30,8 @@ public class PredicatesMain {
 
         System.out.println(isEven.and(isBiggerThan100).test(130));
 
+        // TODO remove the elements of a collection - imperative and functional
+
         // TODO try other simple predicates - Integer, String, ...
     }
 

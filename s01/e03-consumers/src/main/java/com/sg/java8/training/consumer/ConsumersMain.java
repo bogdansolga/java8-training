@@ -3,6 +3,8 @@ package com.sg.java8.training.consumer;
 import com.sg.java8.training.model.Product;
 import com.sg.java8.training.consumer.service.ProductService;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Consumer;
 
 /**
@@ -23,6 +25,8 @@ public class ConsumersMain {
     private static void simpleConsumers() {
         final Consumer<Integer> integerConsumer = number -> System.out.println(number);
         integerConsumer.accept(25);
+
+        // TODO iterating over the values of a Collection
 
         // TODO try other simple consumers - String, Boolean, ...
     }
