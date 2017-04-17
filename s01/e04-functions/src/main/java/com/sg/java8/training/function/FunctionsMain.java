@@ -26,6 +26,11 @@ public class FunctionsMain {
         final Function<Double, String> priceDescription = price -> "The price is " + price;
         System.out.println(priceDescription.apply(250d));
 
+        final Function<String, String> lowerCase = String::toLowerCase;
+        final Function<String, String> subString = value -> value.substring(0, 7);
+
+        System.out.println(lowerCase.andThen(subString).apply("Testing functions chaining"));
+
         // TODO try other simple Functions - String, Boolean, ...
     }
 
