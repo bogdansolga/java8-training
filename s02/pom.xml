@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>e01-optional</module>
-        <module>e02-streams</module>
+        <module>s02e01-optional</module>
+        <module>s02e02-streams</module>
     </modules>
 </project>
