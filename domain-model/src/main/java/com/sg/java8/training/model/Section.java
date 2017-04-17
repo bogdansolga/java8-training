@@ -6,12 +6,12 @@ import java.util.Objects;
 public class Section extends AbstractEntity {
 
     private final int id;
-    private final String sectionName;
+    private final StoreSection name;
     private final List<Product> products;
 
-    public Section(final int id, final String sectionName, final List<Product> products) {
+    public Section(final int id, final StoreSection name, final List<Product> products) {
         this.id = id;
-        this.sectionName = sectionName;
+        this.name = name;
         this.products = products;
     }
 
@@ -19,8 +19,8 @@ public class Section extends AbstractEntity {
         return id;
     }
 
-    public String getSectionName() {
-        return sectionName;
+    public StoreSection getName() {
+        return name;
     }
 
     public List<Product> getProducts() {
@@ -33,11 +33,11 @@ public class Section extends AbstractEntity {
         if (!(o instanceof Section)) return false;
         Section that = (Section) o;
         return id == that.id &&
-                Objects.equals(sectionName, that.sectionName);
+                Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, sectionName);
+        return Objects.hash(id, name);
     }
 }

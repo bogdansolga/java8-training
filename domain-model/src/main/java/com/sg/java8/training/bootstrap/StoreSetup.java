@@ -10,13 +10,16 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
+import static com.sg.java8.training.model.StoreSection.Monitors;
+import static com.sg.java8.training.model.StoreSection.Tablets;
+
 public final class StoreSetup {
 
     private static Store defaultStore;
 
     static {
-        final Section tabletsSection = new Section(1, "Tablets", buildDefaultTablets());
-        final Section monitorsSection = new Section(1, "Monitors", buildDefaultMonitors());
+        final Section tabletsSection = new Section(1, Tablets, buildDefaultTablets());
+        final Section monitorsSection = new Section(2, Monitors, buildDefaultMonitors());
 
         final Manager john = new Manager(1, "John Doe");
         final Manager jane = new Manager(2, "Jane Charming");

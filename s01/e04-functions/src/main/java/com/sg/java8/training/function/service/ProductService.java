@@ -3,6 +3,7 @@ package com.sg.java8.training.function.service;
 import com.sg.java8.training.model.Product;
 import com.sg.java8.training.model.Section;
 import com.sg.java8.training.bootstrap.StoreSetup;
+import com.sg.java8.training.model.StoreSection;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -18,7 +19,7 @@ public class ProductService {
         final Section tablets = StoreSetup.getDefaultStore()
                                           .getStoreSections()
                                           .stream()
-                                          .filter(section -> section.getSectionName().equals("Tablets"))
+                                          .filter(section -> section.getName().equals(StoreSection.Tablets))
                                           .findFirst()
                                           .orElseThrow(() -> new IllegalArgumentException("There's no section named 'Tablets'"));
 
