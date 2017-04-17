@@ -3,6 +3,8 @@ package com.sg.java8.training.function;
 import com.sg.java8.training.model.Product;
 import com.sg.java8.training.function.service.ProductService;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -14,6 +16,8 @@ public class FunctionsMain {
 
     public static void main(String[] args) {
         simpleFunctions();
+
+        mapFunctions();
 
         productFunctions();
 
@@ -32,6 +36,15 @@ public class FunctionsMain {
         System.out.println(lowerCase.andThen(subString).apply("Testing functions chaining"));
 
         // TODO try other simple Functions - String, Boolean, ...
+    }
+
+    private static void mapFunctions() {
+        final Map<Integer, String> weekDays = new HashMap<>();
+        weekDays.put(1, "Monday");
+        weekDays.put(2, "Tuesday");
+
+        // new methods were added to the Map interface
+        weekDays.computeIfAbsent(3, value -> "The 3rd day"); // aka Wednesday
     }
 
     private static void productFunctions() {
