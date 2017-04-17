@@ -6,16 +6,10 @@
 
     <parent>
         <groupId>com.sg</groupId>
-        <artifactId>java8.training</artifactId>
+        <artifactId>s02</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>s02</artifactId>
+    <artifactId>s02e02-streams</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>e01-optional</module>
-        <module>e02-streams</module>
-    </modules>
 </project>
