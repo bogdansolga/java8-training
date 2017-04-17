@@ -23,6 +23,7 @@
         <module>e05-suppliers</module>
 
         <module>e06-bi-functional-interfaces</module>
+        <module>e07-operators</module>
     </modules>
 
     <dependencies>
