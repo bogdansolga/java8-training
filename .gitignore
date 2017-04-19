@@ -24,3 +24,7 @@ hs_err_pid*
 # backup files - both Windows and *n*x
 *.bak
 ~*
+
+# Eclipse goodies
+.classpath
+.project
