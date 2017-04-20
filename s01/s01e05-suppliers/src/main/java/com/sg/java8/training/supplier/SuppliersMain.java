@@ -4,6 +4,8 @@ import com.sg.java8.training.model.Product;
 import com.sg.java8.training.supplier.service.ProductService;
 
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Supplier;
 
 /**
@@ -30,6 +32,13 @@ public class SuppliersMain {
 
         final Supplier<RuntimeException> runtimeExceptionSupplier = () -> new IllegalArgumentException("Nope");
         System.out.println(runtimeExceptionSupplier.get().getMessage());
+
+        final CompletableFuture<String> completableFuture = CompletableFuture.supplyAsync(() -> "something");
+        try {
+            System.out.println(completableFuture.get());
+        } catch (final ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
 
         // TODO try other simple Suppliers - String, Boolean, ...
     }
