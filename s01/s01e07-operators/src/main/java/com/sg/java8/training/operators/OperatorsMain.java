@@ -21,7 +21,7 @@ public class OperatorsMain {
         System.out.println(lowerCase.apply("Somewhere"));
 
         final List<String> values = Arrays.asList("Some", "Random", "Values");
-        values.replaceAll(String::toLowerCase);
+        values.replaceAll(lowerCase);
 
         // using a Consumer
         values.forEach(System.out::println);
