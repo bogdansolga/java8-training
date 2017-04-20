@@ -6,6 +6,8 @@ import com.sg.java8.training.bootstrap.StoreSetup;
 import com.sg.java8.training.model.StoreSection;
 
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -25,8 +27,16 @@ public class ProductService {
 
         return tablets.getProducts()
                       .stream()
-                      .filter(product -> product.getName().contains("Samsung"))
-                      .map(Product::toString)
+                      .filter(productFilter())
+                      .map(productMapper())
                       .collect(Collectors.toSet());
+    }
+
+    private Predicate<Product> productFilter() {
+        return product -> product.getName().contains("Samsung");
+    }
+
+    private Function<Product, String> productMapper() {
+        return product -> product.toString() + " another something";
     }
 }
