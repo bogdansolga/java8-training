@@ -27,10 +27,10 @@ public class UncheckedMain {
         uncheckedConversion(convertedDate);
 
         final List<String> datesToBeParsed = Arrays.asList("2017-04-20", "2017-04-21");
-        uncheckedFunction(datesToBeParsed);
-        uncheckedConsumer(datesToBeParsed);
-        uncheckedSupplier();
         uncheckedPredicate(datesToBeParsed);
+        uncheckedConsumer(datesToBeParsed);
+        uncheckedFunction(datesToBeParsed);
+        uncheckedSupplier(convertedDate);
     }
 
     private static Function<String, Date> dateConversionFunction() {
@@ -48,11 +48,10 @@ public class UncheckedMain {
                         .apply(date);
     }
 
-    private static void uncheckedFunction(final List<String> datesToBeParsed) {
-        final Set<Date> parsedDates = datesToBeParsed.stream()
-                                                     .map(Unchecked.function(UncheckedMain::parseDate))
-                                                     .collect(Collectors.toSet());
-        parsedDates.forEach(System.out::println);
+    private static boolean uncheckedPredicate(final List<String> datesToBeParsed) {
+        final Date today = new Date();
+        return datesToBeParsed.stream()
+                              .anyMatch(Unchecked.predicate(value -> parseDate(value).equals(today)));
     }
 
     private static void uncheckedConsumer(final List<String> datesToBeParsed) {
@@ -60,15 +59,16 @@ public class UncheckedMain {
         datesToBeParsed.forEach(consumer);
     }
 
-    private static Date uncheckedSupplier() {
-        return Unchecked.supplier(() -> parseDate("2017-04-25"))
-                        .get();
+    private static void uncheckedFunction(final List<String> datesToBeParsed) {
+        final Set<Date> parsedDates = datesToBeParsed.stream()
+                                                     .map(Unchecked.function(UncheckedMain::parseDate))
+                                                     .collect(Collectors.toSet());
+        parsedDates.forEach(System.out::println);
     }
 
-    private static boolean uncheckedPredicate(final List<String> datesToBeParsed) {
-        final Date today = new Date();
-        return datesToBeParsed.stream()
-                              .anyMatch(Unchecked.predicate(value -> parseDate(value).equals(today)));
+    private static Date uncheckedSupplier(final String convertedDate) {
+        return Unchecked.supplier(() -> parseDate(convertedDate))
+                        .get();
     }
 
     private static Date parseDate(final String date) throws ParseException {
