@@ -2,6 +2,7 @@ package com.sg.java8.training.bi.functional.interfaces;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
 
@@ -29,7 +30,6 @@ public class BiFunctionalInterfacesMain {
 
         // new methods added in the Map interface
         final Map<Integer, String> months = getMonths();
-        months.forEach((key, value) -> System.out.println(key + " -> " + value)); // easier iteration
 
         months.compute(4, (key, value) -> "April");
 
@@ -48,7 +48,14 @@ public class BiFunctionalInterfacesMain {
     private static void biConsumersSamples() {
         final Map<Integer, String> months = getMonths();
 
-        months.forEach((key, value) -> System.out.println(key + " -> " + value));
+        // iteration - imperative mode
+        final Set<Map.Entry<Integer, String>> entries = months.entrySet();
+        for (Map.Entry<Integer, String> entry : entries) {
+            System.out.println(entry.getKey() + " -> " + entry.getValue());
+        }
+
+        // iteration - functional mode
+        months.forEach((key, value) -> System.out.println(key + " -> " + value)); // easier iteration
     }
 
     private static Map<Integer, String> getMonths() {
