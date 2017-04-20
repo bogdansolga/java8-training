@@ -36,7 +36,7 @@ public class UncheckedMain {
     private static Function<String, Date> dateConversionFunction() {
         return date -> {
             try {
-                return DATE_FORMAT.parse(date);
+                return parseDate(date);
             } catch (final ParseException e) {
                 throw new IllegalArgumentException("Cannot parse '" + date + "'");
             }
@@ -44,30 +44,34 @@ public class UncheckedMain {
     }
 
     private static Date uncheckedConversion(final String date) {
-        return Unchecked.function(it -> DATE_FORMAT.parse(it.toString()))
+        return Unchecked.function(it -> parseDate(it.toString()))
                         .apply(date);
     }
 
     private static void uncheckedFunction(final List<String> datesToBeParsed) {
         final Set<Date> parsedDates = datesToBeParsed.stream()
-                                                     .map(Unchecked.function(DATE_FORMAT::parse))
+                                                     .map(Unchecked.function(UncheckedMain::parseDate))
                                                      .collect(Collectors.toSet());
         parsedDates.forEach(System.out::println);
     }
 
     private static void uncheckedConsumer(final List<String> datesToBeParsed) {
-        final Consumer<String> consumer = Unchecked.consumer(it -> System.out.println(DATE_FORMAT.parse(it)));
+        final Consumer<String> consumer = Unchecked.consumer(it -> System.out.println(parseDate(it)));
         datesToBeParsed.forEach(consumer);
     }
 
     private static Date uncheckedSupplier() {
-        return Unchecked.supplier(() -> DATE_FORMAT.parse("2017-04-25"))
+        return Unchecked.supplier(() -> parseDate("2017-04-25"))
                         .get();
     }
 
     private static boolean uncheckedPredicate(final List<String> datesToBeParsed) {
         final Date today = new Date();
         return datesToBeParsed.stream()
-                              .anyMatch(Unchecked.predicate(value -> DATE_FORMAT.parse(value).equals(today)));
+                              .anyMatch(Unchecked.predicate(value -> parseDate(value).equals(today)));
+    }
+
+    private static Date parseDate(final String date) throws ParseException {
+        return DATE_FORMAT.parse(date);
     }
 }
