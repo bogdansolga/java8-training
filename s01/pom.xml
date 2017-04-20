@@ -24,6 +24,7 @@
 
         <module>s01e06-bi-functional-interfaces</module>
         <module>s01e07-operators</module>
+        <module>s01e08-typed-functional-interfaces</module>
     </modules>
 
     <dependencies>
