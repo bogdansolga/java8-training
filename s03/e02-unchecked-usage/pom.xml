@@ -6,24 +6,10 @@
 
     <parent>
         <groupId>com.sg</groupId>
-        <artifactId>java8.training</artifactId>
+        <artifactId>s03</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>s03</artifactId>
+    <artifactId>e02-unchecked-usage</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>e01-date-and-time-api</module>
-        <module>e02-unchecked-usage</module>
-    </modules>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.sg</groupId>
-            <artifactId>domain-model</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
 </project>
