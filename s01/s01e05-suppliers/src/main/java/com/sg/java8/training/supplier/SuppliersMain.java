@@ -28,6 +28,9 @@ public class SuppliersMain {
         final Supplier<String> holidaySupplier = () -> "I want a holiday, not just a weekend :)";
         System.out.println(holidaySupplier.get());
 
+        final Supplier<RuntimeException> runtimeExceptionSupplier = () -> new IllegalArgumentException("Nope");
+        System.out.println(runtimeExceptionSupplier.get().getMessage());
+
         // TODO try other simple Suppliers - String, Boolean, ...
     }
 
