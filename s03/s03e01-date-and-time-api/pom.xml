@@ -10,6 +10,6 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>e01-date-and-time-api</artifactId>
+    <artifactId>s03e01-date-and-time-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 </project>

@@ -10,6 +10,6 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>e02-unchecked-usage</artifactId>
+    <artifactId>s03e02-unchecked-usage</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 </project>
