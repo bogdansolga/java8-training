@@ -35,13 +35,13 @@ public class StreamsMain {
     private static final List<String> STRINGS = Arrays.asList("I want a holiday, not just a weekend".split(" "));
 
     public static void main(String[] args) {
-        //simpleStreams();
+        simpleStreams();
 
-        //findOperations();
+        findOperations();
 
-        //reduceOperations();
+        reduceOperations();
 
-        //averageOnStrings();
+        averageOnStrings();
 
         //parallelStreams();
 
