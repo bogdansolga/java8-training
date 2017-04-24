@@ -7,9 +7,12 @@ import com.sg.java8.training.model.StoreSection;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.OptionalDouble;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ExecutionException;
@@ -20,6 +23,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * A few {@link java.util.stream.Stream}s usage samples
@@ -31,6 +35,16 @@ public class StreamsMain {
     private static final List<String> STRINGS = Arrays.asList("I want a holiday, not just a weekend".split(" "));
 
     public static void main(String[] args) {
+        //simpleStreams();
+
+        //findOperations();
+
+        //reduceOperations();
+
+        //averageOnStrings();
+
+        //parallelStreams();
+
         //simpleStreamsTests();
 
         //streamOperations();
@@ -39,11 +53,70 @@ public class StreamsMain {
 
         //parallelStreams();
 
-        //collectorsSamples();
+        collectorsSamples();
 
         //numbersStreams();
 
-        mapOperations();
+        //mapOperations();
+    }
+
+    private static void averageOnStrings() {
+        final OptionalDouble average = STRINGS.stream()
+                                              .mapToDouble(value -> value.length())
+                                              .average();
+        average.ifPresent(value -> System.out.println("The average words length is " + value));
+    }
+
+    private static void reduceOperations() {
+        final Optional<String> reduce = STRINGS.stream()
+                                               .reduce((primul, alDoilea) -> primul + "|" + alDoilea);
+        reduce.ifPresent(value -> System.out.println("The reduced value is " + value));
+
+        final String reduceWithIdentity = STRINGS.stream()
+                                                 .reduce("{", (x, y) -> x + "*" + y);
+        System.out.println(reduceWithIdentity);
+    }
+
+    private static void findOperations() {
+        final Optional<String> first = STRINGS.stream()
+                                              .filter(word -> word.length() > 5)
+                                              .findFirst();
+        first.ifPresent(value -> System.out.println(value));
+
+        boolean hasLongerThan5CharWords = STRINGS.stream()
+                                                 .anyMatch(word -> word.length() > 5);
+        System.out.println("The text has words longer than 5 chars - " + hasLongerThan5CharWords);
+    }
+
+    private static void simpleStreams() {
+        //STRINGS.stream().forEach(item -> System.out.println(item));
+
+        Set<Integer> wordsLengths = STRINGS.stream()
+                                           .map(value -> value.length()) // only if a conversion is needed
+                                           .collect(Collectors.toSet());
+
+        Set<Integer> wordsLongerThan3Chars = STRINGS.stream()
+                                                    .filter(value -> value.length() > 3) // only if a filtering is needed
+                                                    .map(value -> value.length())
+                                                    .collect(Collectors.toSet());
+
+        Set<String> words = STRINGS.stream()
+                                   .sorted()
+                                   .collect(Collectors.toSet());
+
+        Set<List<char[]>> wordsLetters = STRINGS.stream()
+                                                .map(value -> Arrays.asList(value.toCharArray()))
+                                                .collect(Collectors.toSet());
+        System.out.println(wordsLetters.size());
+        wordsLetters.forEach(array -> array.forEach(value ->
+                                            System.out.println(Arrays.toString(value) + ",")));
+
+        Store store = StoreSetup.getDefaultStore();
+
+        List<Product> allProducts = store.getStoreSections()
+                                         .stream()
+                                         .flatMap(section -> section.getProducts().stream())
+                                         .collect(Collectors.toList());
     }
 
     private static void simpleStreamsTests() {
@@ -103,6 +176,7 @@ public class StreamsMain {
         STRINGS.parallelStream()
                .forEach(item -> System.out.println(Thread.currentThread().getName() + ": " + item));
 
+        /*
         final ForkJoinPool forkJoinPool = new ForkJoinPool(AVAILABLE_PROCESSORS / 2);
         final ForkJoinTask<?> forkJoinTask = forkJoinPool.submit(() ->
                                                                          System.out.println(Thread.currentThread().getName() + " - something"));
@@ -113,13 +187,14 @@ public class StreamsMain {
                 e.printStackTrace();
             }
         }
+        */
     }
 
     private static void collectorsSamples() {
         final Map<String, Integer> wordsLength = STRINGS.stream()
                                                         .distinct()
                                                         .collect(Collectors.toMap(value -> value, String::length));
-        //System.out.println(wordsLength);
+        System.out.println(wordsLength);
 
         final Map<String, Long> collect = STRINGS.stream()
                                                  .collect(Collectors.groupingBy(
@@ -138,5 +213,9 @@ public class StreamsMain {
                                                         .distinct()
                                                         .collect(Collectors.toMap(value -> value, String::length));
         wordsLength.putIfAbsent("something", 10);
+
+        final Map<Integer, String> months = new HashMap<>();
+        months.put(1, "Jan");
+        months.put(2, "Feb");
     }
 }
