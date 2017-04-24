@@ -47,17 +47,15 @@ public class StreamsMain {
 
         simpleStreamsTests();
 
-        //streamOperations();
+        streamOperations();
 
-        //flatMapOperations();
-
-        //parallelStreams();
+        flatMapOperations();
 
         collectorsSamples();
 
-        //numbersStreams();
+        numbersStreams();
 
-        //mapOperations();
+        mapOperations();
     }
 
     private static void averageOnStrings() {
