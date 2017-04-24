@@ -12,4 +12,12 @@
 
     <artifactId>s02e01-optional</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.sg</groupId>
+            <artifactId>domain-model</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
