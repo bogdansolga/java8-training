@@ -43,9 +43,9 @@ public class StreamsMain {
 
         averageOnStrings();
 
-        //parallelStreams();
+        parallelStreams();
 
-        //simpleStreamsTests();
+        simpleStreamsTests();
 
         //streamOperations();
 
@@ -176,7 +176,6 @@ public class StreamsMain {
         STRINGS.parallelStream()
                .forEach(item -> System.out.println(Thread.currentThread().getName() + ": " + item));
 
-        /*
         final ForkJoinPool forkJoinPool = new ForkJoinPool(AVAILABLE_PROCESSORS / 2);
         final ForkJoinTask<?> forkJoinTask = forkJoinPool.submit(() ->
                                                                          System.out.println(Thread.currentThread().getName() + " - something"));
@@ -187,7 +186,6 @@ public class StreamsMain {
                 e.printStackTrace();
             }
         }
-        */
     }
 
     private static void collectorsSamples() {
