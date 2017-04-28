@@ -17,7 +17,7 @@ public class SeqMain {
 
         System.out.println("------------------------------------------------------");
 
-        final String folded = getSequence().foldLeft("{", (first, second) -> first + "|" + second);
+        final String folded = getSequence().foldRight("{", (first, second) -> first + "|" + second);
         System.out.println(folded);
 
         System.out.println("------------------------------------------------------");

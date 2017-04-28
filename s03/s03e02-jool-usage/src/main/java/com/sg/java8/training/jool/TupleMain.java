@@ -11,7 +11,7 @@ public class TupleMain {
 
     public static void main(String[] args) {
         Tuple2<String, Integer> tuple = new Tuple2<>("value", 6);
-        System.out.println(tuple);
+        System.out.println(tuple.v2());
 
         Tuple3<Integer, Product, String> tuple3 =
                 new Tuple3<>(5, new Product(1, "iSomething", 600d), "a new gadget");

@@ -16,7 +16,7 @@
 
     <modules>
         <module>s03e01-date-and-time-api</module>
-        <module>s03e02-unchecked-usage</module>
+        <module>s03e02-jool-usage</module>
         <module>s03e03-completable-future</module>
     </modules>
 
