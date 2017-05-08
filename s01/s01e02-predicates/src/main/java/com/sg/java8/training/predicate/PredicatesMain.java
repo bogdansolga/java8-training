@@ -16,6 +16,8 @@ public class PredicatesMain {
 
         productPredicates();
 
+        removeCollectionItems();
+
         sectionPredicates();
 
         managerPredicates();
@@ -26,15 +28,34 @@ public class PredicatesMain {
         final Predicate<Integer> isBiggerThan100 = number -> number > 100;
 
         System.out.println(isEven.test(7));
-        System.out.println(isEven.test(8));
+        //System.out.println(isEven.test(8));
 
-        System.out.println(isEven.and(isBiggerThan100).test(130));
+        System.out.println(isEven.and(isBiggerThan100).test(450));
 
-        // TODO remove the elements of a collection - imperative and functional
+        final Predicate<String> isNullOrEmpty = value -> value == null || value.isEmpty();
+        System.out.println(isNullOrEmpty.test("something"));
+        System.out.println(isNullOrEmpty.test(null));
 
-        // TODO using Predicates as methods and with more than one statements
+        final Predicate<String> aFancyPredicate = it -> {
+            if (it.length() > 10) {
+                return true;
+            } else {
+                System.out.println(it);
+                return it.length() > 50;
+            }
+        };
+
+        final Predicate<Double> singleStatementMethodPredicate = predicateAsSingleStatementMethod();
+        singleStatementMethodPredicate.test(515d);
+
+        final Predicate<Double> multipleStatementsMethodPredicate = predicateAsMultipleStatementMethod();
+        multipleStatementsMethodPredicate.test(441d);
 
         // TODO try other simple predicates - Integer, String, ...
+    }
+
+    private static void removeCollectionItems() {
+        // TODO remove the elements of a collection - imperative and functional
     }
 
     private static void productPredicates() {
@@ -49,11 +70,29 @@ public class PredicatesMain {
         // TODO try other Product predicates
     }
 
+    private static Predicate<Double> predicateAsSingleStatementMethod() {
+        return value -> value > 20d;
+    }
+
+    private static Predicate<Double> predicateAsMultipleStatementMethod() {
+        return value -> {
+            if (value > 20) {
+                System.out.println("Perform several instructions");
+                return true;
+            } else {
+                System.out.println("Perform other instructions");
+                return false;
+            }
+        };
+    }
+
     private static void sectionPredicates() {
-        // TODO try a few Section predicates
+        // TODO build a Predicate which filters the Monitors section
+
+        // TODO build a Predicate which filters the sections with more than 3 products
     }
 
     private static void managerPredicates() {
-        // TODO try a few Manager predicates
+        // TODO build a Predicate which returns true if a store is managed by Jane
     }
 }
