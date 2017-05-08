@@ -3,6 +3,8 @@ package com.sg.java8.training.predicate;
 import com.sg.java8.training.model.Product;
 import com.sg.java8.training.predicate.service.ProductService;
 
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -55,7 +57,20 @@ public class PredicatesMain {
     }
 
     private static void removeCollectionItems() {
-        // TODO remove the elements of a collection - imperative and functional
+        // removing the elements of a collection - imperative and functional
+
+        // imperative way
+        final List<String> strings = Arrays.asList("I want a holiday".split(" "));
+        final Iterator<String> iterator = strings.iterator();
+        while (iterator.hasNext()) {
+            String value = iterator.next();
+            if (value.length() < 2) {
+                iterator.remove();
+            }
+        }
+
+        // functional way
+        strings.removeIf(value -> value.length() < 2);
     }
 
     private static void productPredicates() {
