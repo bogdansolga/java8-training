@@ -3,6 +3,7 @@ package com.sg.java8.training.function;
 import com.sg.java8.training.model.Product;
 import com.sg.java8.training.function.service.ProductService;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -17,28 +18,30 @@ public class FunctionsMain {
     public static void main(String[] args) {
         simpleFunctions();
 
-        mapFunctions();
+        composingFunctions();
 
         productFunctions();
+
+        mapFunctions();
 
         sectionFunctions();
 
         managerFunctions();
+
+        comparators();
     }
 
     private static void simpleFunctions() {
-        final Function<Double, String> priceDescription = price -> "The price is " + price;
-        System.out.println(priceDescription.apply(250d));
-
         final Function<String, String> lowerCase = String::toLowerCase;
-        final Function<String, String> subString = value -> value.substring(0, 7);
+        System.out.println(lowerCase.apply("SOME"));
 
+        final Function<String, String> subString = value -> value.substring(0, 7);
         System.out.println(lowerCase.andThen(subString).apply("Testing functions chaining"));
 
         // using Functions as methods
         System.out.println(aFunctionAsAMethod().apply(20));
 
-        // using Functions with expanded body
+        // using Functions with expanded body - multiple statements
         final Function<String, String> processingFunction = value -> {
             if (value.length() > 10) {
                 return value.toLowerCase();
@@ -52,6 +55,35 @@ public class FunctionsMain {
         // TODO try other simple Functions - String, Boolean, ...
     }
 
+    private static void composingFunctions() {
+        Function<String, Integer> first = value -> {
+            System.out.println("first " + value.length());
+            return value.length();
+        };
+
+        Function<Integer, String> second = value -> {
+            System.out.println("second - " + value.toString());
+            return value.toString();
+        };
+
+        Function<String, Integer> third = value -> {
+            System.out.println("third - " + value.length() * 10);
+            return value.length() * 10;
+        };
+
+        // first applies the {@code before} function to its input,
+        // and then applies this function to the result
+        /*
+        System.out.println(first.compose(second)
+                                .compose(third)
+                                .apply("f(g(h(x)))")); // any text can go in here
+        */
+
+        System.out.println(first.andThen(second)
+                .andThen(third)
+                .apply("3537"));
+    }
+
     private static void mapFunctions() {
         final Map<Integer, String> weekDays = new HashMap<>();
         weekDays.put(1, "Monday");
@@ -59,11 +91,13 @@ public class FunctionsMain {
 
         // new methods were added to the Map interface
         weekDays.computeIfAbsent(3, value -> "The 3rd day"); // aka Wednesday
+
+        weekDays.forEach((key, value) -> System.out.println(key + " -> " + value));
     }
 
     private static void productFunctions() {
         final Product aFancyAppleProduct = new Product(10, "iSomething", 500);
-        final Function<Product, String> productPrinter = Product::toString;
+        final Function<Product, String> productPrinter = it -> it.toString(); //Product::toString
         productPrinter.apply(aFancyAppleProduct);
 
         final ProductService productService = new ProductService();
@@ -89,5 +123,10 @@ public class FunctionsMain {
 
     private static Function<Integer, String> aFunctionAsAMethod() {
         return value -> "The value is " + value;
+    }
+
+    private static void comparators() {
+        Comparator<Product> productComparator = Comparator.comparingInt(Product::getId);
+        Comparator<Product> comparator = (first, second) -> first.getId() - second.getId();
     }
 }
