@@ -48,20 +48,17 @@ public class CompletableFutureMain {
 
     private static void chainedCompletionStages() {
         CompletableFuture<String> first = CompletableFuture.supplyAsync(() -> {
-            System.out.println(Thread.currentThread().getName());
-            //Unchecked.consumer(it -> Thread.sleep(100));
+            displayCurrentThread();
             return "first";
         }, EXECUTOR);
 
         CompletableFuture<String> second = CompletableFuture.supplyAsync(() -> {
-            System.out.println(Thread.currentThread().getName());
-            //Unchecked.consumer(it -> Thread.sleep(150));
+            displayCurrentThread();
             return "second";
         }, EXECUTOR);
 
         CompletableFuture<Integer> third = CompletableFuture.supplyAsync(() -> {
-            System.out.println(Thread.currentThread().getName());
-            //Unchecked.consumer(it -> Thread.sleep(200));
+            displayCurrentThread();
             return 7;
         }, EXECUTOR);
 
@@ -86,6 +83,10 @@ public class CompletableFutureMain {
                                                     .thenComposeAsync(getProductsDisplayText, EXECUTOR)
                                                     .join();
         System.out.println(productsText);
+    }
+
+    private static void displayCurrentThread() {
+        System.out.println(Thread.currentThread().getName());
     }
 
     private static void notifyFinishedTasks() {
