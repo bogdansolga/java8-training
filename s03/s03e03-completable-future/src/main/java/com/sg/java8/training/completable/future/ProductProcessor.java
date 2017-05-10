@@ -14,7 +14,7 @@ class ProductProcessor {
     CompletableFuture<Long> getProductsStock(final String productName) {
         return CompletableFuture.supplyAsync(() -> {
             displayThreadName();
-            sleepALittle();
+            sleepALittle(500);
 
             final Store store = StoreSetup.getDefaultStore();
             return store.getStoreSections()
@@ -29,7 +29,7 @@ class ProductProcessor {
     Function<Long, CompletableFuture<Double>> getProductsPrice() {
         return productsStock -> {
             displayThreadName();
-            sleepALittle();
+            sleepALittle(400);
 
             return CompletableFuture.supplyAsync(() -> productsStock * 230d);
         };
@@ -38,7 +38,7 @@ class ProductProcessor {
     Function<Double, CompletableFuture<String>> getDisplayedText() {
         return productsPrice -> {
             displayThreadName();
-            sleepALittle();
+            sleepALittle(200);
 
             return CompletableFuture.supplyAsync(() -> "The price of the products is " +
                     productsPrice);
@@ -47,8 +47,8 @@ class ProductProcessor {
 
     // TODO return a Map of the products and their stock, using a grouping collector
 
-    private void sleepALittle() {
-        Unchecked.consumer(it -> Thread.sleep(300))
+    private void sleepALittle(final int sleepDuration) {
+        Unchecked.consumer(it -> Thread.sleep(sleepDuration))
                  .accept(null);
     }
 
