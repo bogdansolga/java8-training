@@ -22,6 +22,12 @@ public class AsyncProcessingSample {
     public static void main(String[] args) {
         // 0 - create ExecutorService and ExecutorCompletionService
 
+        /* An ExecutorService provides methods to manage termination and methods that can produce a
+            Future for tracking progress of one or more asynchronous tasks.
+            It is the entry point into concurrent handling code in Java.
+            Implementations of this interface - as well are more specialized ones,
+            can be obtained through static methods in the Executors class.
+         */
         final ExecutorService executorService = Executors.newFixedThreadPool(AVAILABLE_PROCESSORS);
         //final ExecutorService executorService = new ForkJoinPool(AVAILABLE_PROCESSORS);
 
@@ -37,11 +43,18 @@ public class AsyncProcessingSample {
             submittedTasks++;
         }
 
+        /* A Future is the result of an asynchronous computation.
+         The result can *only* be retrieved using method get when the computation has completed,
+         blocking if necessary until it is ready". In other words, it represents a wrapper
+         around a value, where this value is the outcome of a calculation.
+        */
+        Future<Integer> result;
+
         // 2 - poll for async results --> join phase
         final List<Integer> joinedResults = new ArrayList<>(submittedTasks);
         try {
             for (int i = 0; i < submittedTasks; i++) {
-                final Future<Integer> result = executorCompletionService.poll(1000, TimeUnit.MILLISECONDS);
+                result = executorCompletionService.poll(1000, TimeUnit.MILLISECONDS);
 
                 if (result != null && result.isDone()) {
                     joinedResults.add(result.get());
