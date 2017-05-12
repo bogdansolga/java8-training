@@ -7,7 +7,6 @@ import com.sg.java8.training.model.StoreSection;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,9 +20,9 @@ import java.util.concurrent.ForkJoinTask;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 /**
  * A few {@link java.util.stream.Stream}s usage samples
@@ -202,6 +201,10 @@ public class StreamsMain {
         final long sum = LongStream.range(0L, 50L)
                                    .sum();
         System.out.println("Sum of first 50 numbers is " + sum);
+
+        // for (int i = 0; i <= 100; i++) {}
+        IntStream.rangeClosed(0, 100)
+                 .forEach(value -> System.out.println("->" + value));
     }
 
     private static void mapOperations() {
