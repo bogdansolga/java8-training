@@ -1,13 +1,19 @@
 package com.sg.java8.training.api;
 
+import java.time.Clock;
 import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.time.temporal.Temporal;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * A few {@link java.time.LocalDate}s and {@link java.time.LocalTime}s usage samples
@@ -21,6 +27,8 @@ public class DateTimeAPIMain {
 
         localDateTimeSamples();
 
+        periodDurationAndClockSamples();
+
         zoneSamples();
     }
 
@@ -30,6 +38,12 @@ public class DateTimeAPIMain {
 
         final LocalDate then = LocalDate.of(2017, Month.FEBRUARY, 10);
         System.out.println("The date then was " + then);
+
+        Date input = new Date();
+        LocalDate date = DateTimeConverter.convertDate(input);
+        System.out.println("date - " + date);
+
+        Date out = DateTimeConverter.convertLocalDate(date);
 
         final DayOfWeek dayOfWeek = then.getDayOfWeek();
         System.out.println("The day of the week was " + dayOfWeek);
@@ -54,12 +68,31 @@ public class DateTimeAPIMain {
         System.out.println(localDateTime.isAfter(then));
     }
 
+    private static void periodDurationAndClockSamples() {
+        final Period holiday = Period.ofDays(40);
+        System.out.println(holiday);
+
+        final LocalDate localDate = LocalDate.now();
+        final LocalDate theNextDate = localDate.plus(holiday);
+        System.out.println(theNextDate);
+
+        final Duration duration = Duration.ofDays(3);
+        System.out.println(duration);
+
+        final Clock clock = Clock.system(ZoneId.of("Europe/Bucharest"));
+        System.out.println("The clock is " + clock.instant());
+    }
+
     private static void zoneSamples() {
         final ZoneId romanianZone = ZoneId.of("Europe/Bucharest");
         final ZoneId japanZone = ZoneId.of("Asia/Tokyo");
 
-        final LocalTime localTime = LocalTime.now(romanianZone);
+        final LocalTime localTime = LocalTime.now();
+        System.out.println("RO time - " + localTime);
+
         final LocalTime japanTime = LocalTime.now(japanZone);
+        System.out.println("JP time - " + japanTime);
+
         System.out.println(japanTime.isAfter(localTime));
 
         final ZoneOffset zoneOffset = ZoneOffset.ofHours(5);
