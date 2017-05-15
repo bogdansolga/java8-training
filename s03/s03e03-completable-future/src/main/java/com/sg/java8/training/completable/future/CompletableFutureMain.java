@@ -17,6 +17,8 @@ public class CompletableFutureMain {
     private static final Executor EXECUTOR = Executors.newWorkStealingPool(AVAILABLE_PROCESSORS / 2);
 
     public static void main(String[] args) {
+        helloSimpleCompletableFutures();
+
         simpleCompletableFutures();
 
         chainedCompletionStages();
@@ -24,6 +26,24 @@ public class CompletableFutureMain {
         productsOperations();
 
         shutdownExecutor();
+    }
+
+    private static void helloSimpleCompletableFutures() {
+        final CompletableFuture<String> completableFuture = CompletableFuture.supplyAsync(() -> {
+            displayCurrentThread();
+            return "I will run on Saturday";
+        });
+        //System.out.println(completableFuture.join());
+
+        completableFuture.thenAcceptAsync(value -> {
+            displayCurrentThread();
+            System.out.println("The received value is " + value);
+        });
+
+        completableFuture.exceptionally(ex -> "Some exception occurred");
+
+        String processingResult = completableFuture.join();
+        System.out.println("The processing returned " + processingResult);
     }
 
     private static void simpleCompletableFutures() {
@@ -79,8 +99,16 @@ public class CompletableFutureMain {
         final Function<Long, CompletableFuture<Double>> getProductsPrice = productProcessor.getProductsPrice();
         final Function<Double, CompletableFuture<String>> getProductsDisplayText = productProcessor.getDisplayedText();
 
+        /*
+            The three processing stages:
+                - 1) get products stock
+                - 2) get products price, for the resulted stock
+                - 3) get displayed text, for the products price and stock
+        */
+
         final String productsText = getProductsStock.thenComposeAsync(getProductsPrice, EXECUTOR)
                                                     .thenComposeAsync(getProductsDisplayText, EXECUTOR)
+                                                    .exceptionally(Throwable::getMessage)
                                                     .join();
         System.out.println(productsText);
     }
@@ -99,6 +127,6 @@ public class CompletableFutureMain {
 
     private static void shutdownExecutor() {
         ((ExecutorService) EXECUTOR).shutdown();
-        System.out.println("The executor was properly shutdown");
+        //System.out.println("The executor was properly shutdown");
     }
 }
