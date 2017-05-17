@@ -86,8 +86,6 @@ public class StreamsMain {
     }
 
     private static void simpleStreams() {
-        //STRINGS.stream().forEach(item -> System.out.println(item));
-
         Set<Integer> wordsLengths = STRINGS.stream()
                                            .map(value -> value.length()) // only if a conversion is needed
                                            .collect(Collectors.toSet());
