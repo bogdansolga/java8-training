@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 /**
  * A few {@link org.jooq.lambda.Unchecked} usage samples
  */
+@SuppressWarnings("unused")
 public class UncheckedMain {
 
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
@@ -44,7 +45,7 @@ public class UncheckedMain {
     }
 
     private static Date uncheckedConversion(final String date) {
-        return Unchecked.function(it -> parseDate(it.toString()))
+        return Unchecked.function(it -> parseDate(it.toString()), exceptionHandler())
                         .apply(date);
     }
 
@@ -55,7 +56,8 @@ public class UncheckedMain {
     }
 
     private static void uncheckedConsumer(final List<String> datesToBeParsed) {
-        final Consumer<String> consumer = Unchecked.consumer(it -> System.out.println(parseDate(it)));
+        final Consumer<String> consumer =
+                Unchecked.consumer(it -> System.out.println(parseDate(it)), exceptionHandler());
         datesToBeParsed.forEach(consumer);
     }
 
@@ -67,11 +69,16 @@ public class UncheckedMain {
     }
 
     private static Date uncheckedSupplier(final String convertedDate) {
-        return Unchecked.supplier(() -> parseDate(convertedDate))
+        return Unchecked.supplier(() -> parseDate(convertedDate), exceptionHandler())
                         .get();
     }
 
     private static Date parseDate(final String date) throws ParseException {
         return DATE_FORMAT.parse(date);
+    }
+
+    private static Consumer<Throwable> exceptionHandler() {
+        return exception -> System.err.println(exception.getClass().getSimpleName() + " -> " +
+                                                       exception.getMessage());
     }
 }
