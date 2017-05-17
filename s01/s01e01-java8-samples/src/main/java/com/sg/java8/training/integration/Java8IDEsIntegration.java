@@ -19,6 +19,8 @@ public class Java8IDEsIntegration {
 
     private static final List<String> words = new ArrayList<>(Arrays.asList("I want a holiday, not just a weekend".split("\\s")));
 
+    // Double Brace initialization - http://stackoverflow.com/questions/1958636/what-is-double-brace-initialization-in-java
+    // http://blog.jooq.org/2014/12/08/dont-be-clever-the-double-curly-braces-anti-pattern/
     private static final Map<Integer, String> holidayLengths = new HashMap<Integer, String>() {{
         put( 3, "too short");
         put(10, "decent");
