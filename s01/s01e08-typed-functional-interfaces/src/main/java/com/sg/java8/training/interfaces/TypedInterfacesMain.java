@@ -24,6 +24,7 @@ public class TypedInterfacesMain {
         System.out.println(intFunction.apply(33));
 
         IntToLongFunction converter = value -> (long) value;
+        System.out.println(converter.applyAsLong(235));
     }
 
     private static void doubleFunctionalInterfaces() {
