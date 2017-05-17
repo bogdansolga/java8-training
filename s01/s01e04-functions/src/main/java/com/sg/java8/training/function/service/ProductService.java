@@ -27,16 +27,16 @@ public class ProductService {
 
         return tablets.getProducts()
                       .stream()
-                      .filter(productFilter())
-                      .map(productMapper())
+                      .filter(samsungProductsFilter())
+                      .map(displayProduct())
                       .collect(Collectors.toSet());
     }
 
-    private Predicate<Product> productFilter() {
+    private Predicate<Product> samsungProductsFilter() {
         return product -> product.getName().contains("Samsung");
     }
 
-    private Function<Product, String> productMapper() {
-        return product -> product.toString() + " another something";
+    private Function<Product, String> displayProduct() {
+        return product -> "The product is: " + product.toString();
     }
 }
