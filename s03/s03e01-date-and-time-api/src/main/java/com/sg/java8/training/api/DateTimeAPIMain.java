@@ -39,11 +39,12 @@ public class DateTimeAPIMain {
         final LocalDate then = LocalDate.of(2017, Month.FEBRUARY, 10);
         System.out.println("The date then was " + then);
 
-        Date input = new Date();
-        LocalDate date = DateTimeConverter.convertDate(input);
+        final Date input = new Date();
+        final LocalDate date = DateTimeConverter.convertDate(input);
         System.out.println("date - " + date);
 
-        Date out = DateTimeConverter.convertLocalDate(date);
+        final Date out = DateTimeConverter.convertLocalDate(date);
+        System.out.println(out);
 
         final DayOfWeek dayOfWeek = then.getDayOfWeek();
         System.out.println("The day of the week was " + dayOfWeek);
