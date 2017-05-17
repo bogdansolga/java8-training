@@ -73,15 +73,15 @@ public class FunctionsMain {
 
         // first applies the {@code before} function to its input,
         // and then applies this function to the result
-        /*
         System.out.println(first.compose(second)
                                 .compose(third)
                                 .apply("f(g(h(x)))")); // any text can go in here
-        */
+
+        System.out.println();
 
         System.out.println(first.andThen(second)
-                .andThen(third)
-                .apply("3537"));
+                                .andThen(third)
+                                .apply("2351231"));
     }
 
     private static void mapFunctions() {
