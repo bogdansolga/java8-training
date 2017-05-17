@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import static com.sg.java8.training.model.StoreSection.Monitors;
+import static com.sg.java8.training.model.StoreSection.Laptops;
 import static com.sg.java8.training.model.StoreSection.Tablets;
 
 public final class StoreSetup {
@@ -20,12 +21,13 @@ public final class StoreSetup {
     static {
         final Section tabletsSection = new Section(1, Tablets, buildDefaultTablets());
         final Section monitorsSection = new Section(2, Monitors, buildDefaultMonitors());
+        final Section laptopsSection = new Section(3, Laptops, buildDefaultLaptops());
 
         final Manager john = new Manager(1, "John Doe");
         final Manager jane = new Manager(2, "Jane Charming");
 
-        defaultStore = new Store(1, "eMag", "Over there",
-                                 new HashSet<>(Arrays.asList(tabletsSection, monitorsSection)),
+        defaultStore = new Store(1, "ourMag", "Over there",
+                                 new HashSet<>(Arrays.asList(tabletsSection, monitorsSection, laptopsSection)),
                                  new HashSet<>(Arrays.asList(john, jane)));
     }
 
@@ -37,7 +39,7 @@ public final class StoreSetup {
         final List<Product> tablets = new ArrayList<>();
 
         tablets.add(new Product(1, "Google Nexus 7 2013", 200));
-        tablets.add(new Product(2, "Apple Ipad Pro 9.7", 300));
+        tablets.add(new Product(2, "Apple iPad Pro 9.7", 300));
         tablets.add(new Product(3, "Samsung Galaxy Tab S2", 350));
         tablets.add(new Product(4, "Microsoft Surface Pro 4", 400));
 
@@ -52,5 +54,12 @@ public final class StoreSetup {
         monitors.add(new Product(7, "Samsung CH711", 600));
 
         return monitors;
+    }
+
+    private static List<Product> buildDefaultLaptops() {
+        return Arrays.asList(
+                new Product(10, "Lenovo X11", 1500),
+                new Product(11, "Apple MacBook Pro", 2000)
+        );
     }
 }
