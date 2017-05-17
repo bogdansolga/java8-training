@@ -69,7 +69,10 @@ public class ConsumersMain {
         productConsumer.accept(product);
 
         final Consumer<Product> preProcessor = product1 -> System.out.println("Pre-processing the product...");
+        final Consumer<Product> postProcessor = it -> System.out.println("Post processing " + it);
         preProcessor.andThen(productConsumer)
+                    .andThen(postProcessor)
+                    // any number of chained consumers
                     .accept(product);
 
         final ProductService productService = new ProductService();
