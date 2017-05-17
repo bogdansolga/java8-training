@@ -14,14 +14,14 @@ import java.util.function.Supplier;
  */
 public class ProductService {
 
-    private static final Random RANDOM = new Random(8000);
+    private static final Random RANDOM = new Random();
 
     private static final NumberFormat NUMBER_FORMAT = new DecimalFormat("##.##");
 
     public Supplier<Product> generateRandomProduct() {
         return () -> {
             try {
-                return new Product(RANDOM.nextInt(50), "A fancy little product",
+                return new Product(RANDOM.nextInt(500), "A fancy little random product",
                                    Double.parseDouble(NUMBER_FORMAT.format(RANDOM.nextDouble() * 100)));
             } catch (final NumberFormatException e) {
                 throw new IllegalArgumentException("Invalid number");
