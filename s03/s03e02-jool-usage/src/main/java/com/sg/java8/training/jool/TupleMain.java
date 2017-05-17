@@ -10,6 +10,8 @@ import org.jooq.lambda.tuple.Tuple3;
 public class TupleMain {
 
     public static void main(String[] args) {
+        // recommended usage - *only* as lambda expression parameters
+
         Tuple2<String, Integer> tuple = new Tuple2<>("value", 6);
         System.out.println(tuple.v2());
 
