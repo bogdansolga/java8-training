@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
+import java.util.stream.IntStream;
 
 class ProductProcessor {
 
@@ -18,7 +19,7 @@ class ProductProcessor {
 
     CompletableFuture<Long> getProductsStock(final String productName) {
         return CompletableFuture.supplyAsync(() -> {
-            displayThreadName();
+            displayStageAndThreadName("Getting the product stock for '" + productName + "'");
             sleepALittle();
 
             final Store store = StoreSetup.getDefaultStore();
@@ -31,9 +32,19 @@ class ProductProcessor {
         });
     }
 
+    CompletableFuture<Long> getReserveStock(final String productName) {
+        return CompletableFuture.supplyAsync(() -> {
+            displayStageAndThreadName("Getting the reserve stock for '" + productName + "'");
+            sleepALittle();
+
+            return IntStream.of(RANDOM.nextInt(100))
+                            .count();
+        });
+    }
+
     Function<Long, CompletableFuture<Double>> getProductsPrice() {
         return productsStock -> {
-            displayThreadName();
+            displayStageAndThreadName("Getting the product price");
             sleepALittle();
 
             return CompletableFuture.supplyAsync(() -> productsStock * 230d);
@@ -42,14 +53,14 @@ class ProductProcessor {
 
     Function<Double, CompletableFuture<String>> getDisplayedText() {
         return productsPrice -> {
-            displayThreadName();
+            displayStageAndThreadName("Getting the displayed text");
             sleepALittle();
 
             return CompletableFuture.supplyAsync(() -> "The price of the products is " + productsPrice);
         };
     }
-
     // TODO return a Map of the products and their stock, using a grouping collector
+
     private void sleepALittle() {
         Unchecked.consumer(it -> Thread.sleep(getRandomSleepDuration()))
                  .accept(null);
@@ -59,7 +70,7 @@ class ProductProcessor {
         return RANDOM.nextInt(MAX_SLEEP_TIME);
     }
 
-    private void displayThreadName() {
-        System.out.println(Thread.currentThread().getName());
+    private void displayStageAndThreadName(final String operationName) {
+        System.out.println("[" + Thread.currentThread().getName() + "] " + operationName + "...");
     }
 }

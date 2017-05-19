@@ -23,7 +23,9 @@ public class CompletableFutureMain {
 
         chainedCompletionStages();
 
-        productsOperations();
+        simpleProductsOperations();
+
+        moreComplexProductsOperations();
 
         shutdownExecutor();
     }
@@ -33,7 +35,7 @@ public class CompletableFutureMain {
             displayCurrentThread();
             return "I will run on Saturday";
         });
-        //System.out.println(completableFuture.join());
+        System.out.println(completableFuture.join());
 
         completableFuture.thenAcceptAsync(value -> {
             displayCurrentThread();
@@ -92,7 +94,7 @@ public class CompletableFutureMain {
         finalFuture.thenAccept(value -> notifyFinishedTasks());
     }
 
-    private static void productsOperations() {
+    private static void simpleProductsOperations() {
         final ProductProcessor productProcessor = new ProductProcessor();
 
         final CompletableFuture<Long> getProductsStock = productProcessor.getProductsStock("iPad");
@@ -103,7 +105,7 @@ public class CompletableFutureMain {
             The three processing stages:
                 - 1) get products stock
                 - 2) get products price, for the resulted stock
-                - 3) get displayed text, for the products price and stock
+                - 3) get the displayed text, for the products price and stock
         */
 
         final String productsText = getProductsStock.thenComposeAsync(getProductsPrice, EXECUTOR)
@@ -111,6 +113,38 @@ public class CompletableFutureMain {
                                                     .exceptionally(Throwable::getMessage)
                                                     .join();
         System.out.println(productsText);
+    }
+
+    private static void moreComplexProductsOperations() {
+        final ProductProcessor productProcessor = new ProductProcessor();
+
+        final CompletableFuture<Long> getProductsStock = productProcessor.getProductsStock("iPad");
+        final CompletableFuture<Long> getReserveStock = productProcessor.getReserveStock("iPad");
+        final Function<Long, CompletableFuture<Double>> getProductsPrice = productProcessor.getProductsPrice();
+        final Function<Double, CompletableFuture<String>> getProductsDisplayText = productProcessor.getDisplayedText();
+
+        /*
+            The five processing stages:
+                - 1) get products stock OR get the reserve stock (whichever finishes first)
+                - 2) get products price, for the resulted stock
+                - 3) get the displayed text, for the products price and stock
+                - 4) when either the displayed text or an exception is returned, complete the stage asynchronously
+        */
+
+        final String productsText = getProductsStock.applyToEitherAsync(getReserveStock, Function.identity(), EXECUTOR)
+                                                    .thenComposeAsync(getProductsPrice, EXECUTOR)
+                                                    .thenComposeAsync(getProductsDisplayText, EXECUTOR)
+                                                    .whenCompleteAsync(CompletableFutureMain::processResult, EXECUTOR)
+                                                    .join();
+        System.out.println(productsText);
+    }
+
+    private static void processResult(final String result, final Throwable exception) {
+        if (exception != null) {
+            throw new RuntimeException(exception.getMessage());
+        } else {
+            CompletableFuture.supplyAsync(() -> result, EXECUTOR);
+        }
     }
 
     private static void displayCurrentThread() {
