@@ -39,12 +39,12 @@ public class DateTimeAPIMain {
         final LocalDate then = LocalDate.of(2017, Month.FEBRUARY, 10);
         System.out.println("The date then was " + then);
 
-        final Date input = new Date();
-        final LocalDate date = DateTimeConverter.convertDate(input);
-        System.out.println("date - " + date);
+        final Date date = new Date();
+        final LocalDate convertedDate = DateTimeConverter.convertDate(date);
+        System.out.println("Converted date - " + convertedDate);
 
-        final Date out = DateTimeConverter.convertLocalDate(date);
-        System.out.println(out);
+        final Date convertedLocalDate = DateTimeConverter.convertLocalDate(convertedDate);
+        System.out.println("Converted local date is " + convertedLocalDate);
 
         final DayOfWeek dayOfWeek = then.getDayOfWeek();
         System.out.println("The day of the week was " + dayOfWeek);
@@ -85,10 +85,12 @@ public class DateTimeAPIMain {
     }
 
     private static void zoneSamples() {
+        //ZoneId.getAvailableZoneIds().forEach(zoneId -> System.out.println(zoneId));
+
         final ZoneId romanianZone = ZoneId.of("Europe/Bucharest");
         final ZoneId japanZone = ZoneId.of("Asia/Tokyo");
 
-        final LocalTime localTime = LocalTime.now();
+        final LocalTime localTime = LocalTime.now(romanianZone);
         System.out.println("RO time - " + localTime);
 
         final LocalTime japanTime = LocalTime.now(japanZone);
