@@ -1,5 +1,6 @@
 package com.sg.java8.training.bootstrap;
 
+import com.sg.java8.training.model.Discount;
 import com.sg.java8.training.model.Manager;
 import com.sg.java8.training.model.Product;
 import com.sg.java8.training.model.Section;
@@ -26,7 +27,7 @@ public final class StoreSetup {
         final Manager john = new Manager(1, "John Doe");
         final Manager jane = new Manager(2, "Jane Charming");
 
-        defaultStore = new Store(1, "ourMag", "Over there",
+        defaultStore = new Store(1, "eMag", "Over there",
                                  new HashSet<>(Arrays.asList(tabletsSection, monitorsSection, laptopsSection)),
                                  new HashSet<>(Arrays.asList(john, jane)));
     }
@@ -38,8 +39,8 @@ public final class StoreSetup {
     private static List<Product> buildDefaultTablets() {
         final List<Product> tablets = new ArrayList<>();
 
-        tablets.add(new Product(1, "Google Nexus 7 2013", 200));
-        tablets.add(new Product(2, "Apple iPad Pro 9.7", 300));
+        tablets.add(new Product(1, "Google Nexus 7 2013", 200, new Discount(50, Discount.Type.Value)));
+        tablets.add(new Product(2, "Apple iPad Pro 9.7", 300, new Discount(10, Discount.Type.Percent)));
         tablets.add(new Product(3, "Samsung Galaxy Tab S2", 350));
         tablets.add(new Product(4, "Microsoft Surface Pro 4", 400));
 
