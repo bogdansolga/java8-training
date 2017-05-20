@@ -54,12 +54,6 @@ public class ConsumersMain {
         final Consumer<String> displayedRecommendationConsumer = value -> {
             System.out.println("The value is " + value);
         };
-
-        // TODO using Consumers as methods and with more than one statements
-
-        // TODO iterating over the values of a Collection
-
-        // TODO try other simple consumers - String, Boolean, ...
     }
 
     private static void productConsumers() {
@@ -78,7 +72,7 @@ public class ConsumersMain {
         final ProductService productService = new ProductService();
         productService.displayAppleTablets();
 
-        // TODO try other Product consumers
+        // TODO add a method in the ProductService to display all the products with a price bigger than 100
     }
 
     private static void sectionConsumers() {
