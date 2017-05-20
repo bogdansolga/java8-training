@@ -42,15 +42,15 @@ public class OptionalSamples {
         flatMap(optionalDay);
     }
 
-    private static void mapOrElse(final Optional<String> optional) {
+    private static void mapOrElse(final Optional<String> optionalDay) {
         // use a fallback / default value if the wrapped value does not exist
-        final int unWrappedValue = optional.map(Integer::parseInt)
-                                           .orElse(0);
+        final int unWrappedValue = optionalDay.map(Integer::parseInt)
+                                              .orElse(0);
         System.out.println("The mapOrElse value is " + unWrappedValue);
 
         // or use a Supplier to return a value
-        final int unWrappedUsingOrElseGet = optional.map(Integer::parseInt)
-                                                    .orElseGet(() -> RANDOM.nextInt(20));
+        final int unWrappedUsingOrElseGet = optionalDay.map(Integer::parseInt)
+                                                       .orElseGet(() -> RANDOM.nextInt(20));
         System.out.println("The mapOrElseGet value is " + unWrappedUsingOrElseGet);
     }
 
