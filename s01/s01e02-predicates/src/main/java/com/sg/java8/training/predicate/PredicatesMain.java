@@ -82,7 +82,11 @@ public class PredicatesMain {
         final List<Product> products = productService.getNexusTablets();
         System.out.println("There are " + products.size() + " Nexus tablets");
 
-        // TODO try other Product predicates
+        /*
+        TODO add methods in the ProductService which are using Predicates for returning:
+            - the sections which have more than 3 products
+            - the manager named Jane
+        */
     }
 
     private static Predicate<Double> predicateAsSingleStatementMethod() {
