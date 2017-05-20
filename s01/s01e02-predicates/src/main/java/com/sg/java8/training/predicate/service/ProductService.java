@@ -6,6 +6,7 @@ import com.sg.java8.training.bootstrap.StoreSetup;
 import com.sg.java8.training.model.StoreSection;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -23,9 +24,11 @@ public class ProductService {
                                           .findFirst()
                                           .orElseThrow(() -> new IllegalArgumentException("There's no section named 'Tablets'"));
 
-        return tablets.getProducts()
-                      .stream()
-                      .filter(product -> product.getName().toLowerCase().contains("nexus"))
-                      .collect(Collectors.toList());
+        final List<Product> products = tablets.getProducts()
+                                              .orElseThrow(() -> new IllegalArgumentException("There are no available tablets"));
+
+        return products.stream()
+                       .filter(product -> product.getName().toLowerCase().contains("nexus"))
+                       .collect(Collectors.toList());
     }
 }

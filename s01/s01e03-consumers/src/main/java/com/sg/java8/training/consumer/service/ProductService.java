@@ -5,6 +5,7 @@ import com.sg.java8.training.model.Section;
 import com.sg.java8.training.bootstrap.StoreSetup;
 import com.sg.java8.training.model.StoreSection;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 /**
@@ -19,11 +20,13 @@ public class ProductService {
         processAppleTablets(tablets);
     }
 
-    private void processAppleTablets(Section tablets) {
-        tablets.getProducts()
-               .stream()
-               .filter(appleProducts())         // 1 - filtering stage
-               .forEach(System.out::println);   // 2 - processing / consuming stage
+    private void processAppleTablets(final Section tablets) {
+        final List<Product> products = tablets.getProducts()
+                                              .orElseThrow(() -> new IllegalArgumentException("There are no products"));
+
+        products.stream()
+                .filter(appleProducts())        // 1 - filtering stage
+                .forEach(System.out::println);  // 2 - processing / consuming stage
     }
 
     private Section getTabletsSection() {

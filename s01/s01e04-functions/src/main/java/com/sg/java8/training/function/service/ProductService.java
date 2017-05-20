@@ -5,6 +5,7 @@ import com.sg.java8.training.model.Section;
 import com.sg.java8.training.bootstrap.StoreSetup;
 import com.sg.java8.training.model.StoreSection;
 
+import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -25,11 +26,13 @@ public class ProductService {
                                           .findFirst()
                                           .orElseThrow(() -> new IllegalArgumentException("There's no section named 'Tablets'"));
 
-        return tablets.getProducts()
-                      .stream()
-                      .filter(samsungProductsFilter())
-                      .map(displayProduct())
-                      .collect(Collectors.toSet());
+        final List<Product> products = tablets.getProducts()
+                                              .orElseThrow(() -> new IllegalArgumentException("There are no products"));
+
+        return products.stream()
+                       .filter(samsungProductsFilter())
+                       .map(displayProduct())
+                       .collect(Collectors.toSet());
     }
 
     private Predicate<Product> samsungProductsFilter() {
