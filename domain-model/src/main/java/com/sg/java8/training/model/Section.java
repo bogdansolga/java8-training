@@ -2,6 +2,7 @@ package com.sg.java8.training.model;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Section extends AbstractEntity {
 
@@ -23,8 +24,8 @@ public class Section extends AbstractEntity {
         return name;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public Optional<List<Product>> getProducts() {
+        return Optional.ofNullable(products);
     }
 
     @Override
