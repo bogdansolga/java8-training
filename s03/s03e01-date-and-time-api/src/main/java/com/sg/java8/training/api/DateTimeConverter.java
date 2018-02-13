@@ -20,4 +20,6 @@ final class DateTimeConverter {
                    .atZone(ZoneId.systemDefault())
                    .toLocalDate();
     }
+
+    private DateTimeConverter() {}
 }
