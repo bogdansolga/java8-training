@@ -5,6 +5,7 @@ import com.sg.java8.training.model.Product;
 import com.sg.java8.training.model.Store;
 import com.sg.java8.training.model.StoreSection;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -89,15 +90,18 @@ public class StreamsMain {
         Set<Integer> wordsLengths = STRINGS.stream()
                                            .map(value -> value.length()) // only if a conversion is needed
                                            .collect(Collectors.toSet());
+        System.out.println(wordsLengths);
 
         Set<Integer> wordsLongerThan3Chars = STRINGS.stream()
                                                     .filter(value -> value.length() > 3) // only if a filtering is needed
                                                     .map(value -> value.length())
                                                     .collect(Collectors.toSet());
+        System.out.println(wordsLongerThan3Chars);
 
         Set<String> words = STRINGS.stream()
                                    .sorted()
                                    .collect(Collectors.toSet());
+        System.out.println(words);
 
         Set<List<char[]>> wordsLetters = STRINGS.stream()
                                                 .map(value -> Arrays.asList(value.toCharArray()))
@@ -110,7 +114,9 @@ public class StreamsMain {
 
         List<Product> allProducts = store.getStoreSections()
                                          .stream()
-                                         .flatMap(section -> section.getProducts().stream())
+                                         .flatMap(section -> section.getProducts()
+                                                                    .orElse(new ArrayList<>())
+                                                                    .stream())
                                          .collect(Collectors.toList());
     }
 
@@ -155,7 +161,9 @@ public class StreamsMain {
         final Set<Product> tablets = store.getStoreSections()
                                           .stream()
                                           .filter(section -> section.getName().equals(StoreSection.Tablets))
-                                          .flatMap(section -> section.getProducts().stream())
+                                          .flatMap(section -> section.getProducts()
+                                                                     .orElse(new ArrayList<>())
+                                                                     .stream())
                                           .filter(product -> product.getName().contains("Apple"))
                                           .collect(Collectors.toSet());
 
