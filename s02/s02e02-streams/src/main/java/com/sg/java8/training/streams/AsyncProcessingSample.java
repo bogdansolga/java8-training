@@ -42,7 +42,7 @@ public class AsyncProcessingSample {
         final List<Integer> depositIds = Arrays.asList(10, 20, 30, 25, 21, 54, 35, 213, 45, 65, 76, 34);
         final long now = System.currentTimeMillis();
 
-        // 1 - submit tasks --> fork phase
+        // 1 - submit tasks --> forking (/ mapping) phase
         int submittedTasks = 0;
         for (final Integer depositId : depositIds) {
             executorCompletionService.submit(new ProductProcessor(depositId));
@@ -56,7 +56,7 @@ public class AsyncProcessingSample {
         */
         Future<Integer> productStock;
 
-        // 2 - poll for async results --> join phase
+        // 2 - poll for async results --> joining phase
         final List<Integer> productStocks = new ArrayList<>(submittedTasks);
         try {
             for (int i = 0; i < submittedTasks; i++) {
