@@ -7,10 +7,12 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * A few {@link java.util.function.Predicate} usage samples
  */
+@SuppressWarnings("unused")
 public class PredicatesMain {
 
     public static void main(String[] args) {
@@ -32,12 +34,19 @@ public class PredicatesMain {
         System.out.println(isEven.test(7));
         //System.out.println(isEven.test(8));
 
-        System.out.println(isEven.and(isBiggerThan100).test(450));
+        System.out.println(isEven.and(isBiggerThan100)
+                                 .test(150));
 
         final Predicate<String> isNullOrEmpty = value -> value == null || value.isEmpty();
-        System.out.println(isNullOrEmpty.test("something"));
-        System.out.println(isNullOrEmpty.test(null));
 
+        // explicit usage
+        System.out.println(isNullOrEmpty.test("something"));
+
+        // implicit usage --> for Streams and Optional (especially)
+        Stream.of("Inside", "out")
+              .filter(isNullOrEmpty);
+
+        // statement lambda
         final Predicate<String> aFancyPredicate = it -> {
             if (it.length() > 10) {
                 return true;
@@ -77,6 +86,9 @@ public class PredicatesMain {
         final Product product = new Product(10, "iSomething", 500);
         final Predicate<Product> hasAppleBranding = it -> it.getName().startsWith("i");
         System.out.println(hasAppleBranding.test(product));
+
+        Predicate<Product> isCheap = it -> it.getPrice() < 100;
+        System.out.println(isCheap.test(product));
 
         final ProductService productService = new ProductService();
         final List<Product> products = productService.getNexusTablets();
