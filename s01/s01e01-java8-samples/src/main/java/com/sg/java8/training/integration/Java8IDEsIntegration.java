@@ -66,7 +66,8 @@ public class Java8IDEsIntegration {
         words.removeIf(item -> item.isEmpty());
 
         freeMonthNumbers.stream().forEach(item -> {
-            Optional.ofNullable(item).ifPresent(it -> System.out.println(it));
+            Optional.ofNullable(item)
+                    .ifPresent(it -> System.out.println(it));
         });
 
         if (!freeMonthNumbers.stream()
@@ -78,7 +79,10 @@ public class Java8IDEsIntegration {
     }
 
     private static void optionalUsage() {
-        words.stream().filter(item -> item.length() > 2).findAny().get();
+        words.stream()
+             .filter(item -> item.length() > 2)
+             .findAny()
+             .get();
 
         words.stream().max((first, second) -> first.compareTo(second)).get();
     }
