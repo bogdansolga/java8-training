@@ -6,6 +6,7 @@ import com.sg.java8.training.bootstrap.StoreSetup;
 import com.sg.java8.training.model.StoreSection;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -24,9 +25,20 @@ public class ProductService {
         final List<Product> products = tablets.getProducts()
                                               .orElseThrow(() -> new IllegalArgumentException("There are no products"));
 
-        products.stream()
+        /*
+            Q:  when to use an inline lambda expression and when to use a methods?
+            A:  if the lambda expression needs to be a statement lambda --> use a method
+                if the lambda expression can be written on a single line --> usa an inline lambda
+        */
+
+        // Single Responsibility Principle
+        products.stream()                       // separation of concerns
                 .filter(appleProducts())        // 1 - filtering stage
-                .forEach(System.out::println);  // 2 - processing / consuming stage
+                .forEach(consumeProduct());     // 2 - processing / consuming stage
+    }
+
+    private Consumer<Product> consumeProduct() {
+        return System.out::println;
     }
 
     private Section getTabletsSection() {
