@@ -28,7 +28,7 @@ public class OperatorsMain {
     }
 
     private static void binaryOperators() {
-        final BinaryOperator<Integer> multiplier = (first, second) -> first * second;
-        System.out.println(multiplier.apply(20, 7));
+        final BinaryOperator<Double> squareRoot = (x, y) -> Math.sqrt(x * y);
+        System.out.println(squareRoot.apply(20.5, 7.2));
     }
 }
