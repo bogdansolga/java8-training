@@ -19,6 +19,8 @@ public class ProductService {
     private static final NumberFormat NUMBER_FORMAT = new DecimalFormat("##.##");
 
     public Supplier<Product> generateRandomProduct() {
+        // advice - try not to do not do this at home (or in your projects)
+        // (this = mixing lambda expressions and try / catch statements)
         return () -> {
             try {
                 return new Product(RANDOM.nextInt(500), "A fancy little random product",
