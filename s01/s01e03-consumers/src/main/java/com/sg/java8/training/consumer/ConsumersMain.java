@@ -10,12 +10,15 @@ import java.util.function.Consumer;
 /**
  * A few {@link java.util.function.Consumer} usage samples
  */
+@SuppressWarnings("unused")
 public class ConsumersMain {
 
     public static void main(String[] args) {
         simpleConsumers();
 
         productConsumers();
+
+        chainedProductConsumers();
 
         sectionConsumers();
 
@@ -57,22 +60,26 @@ public class ConsumersMain {
     }
 
     private static void productConsumers() {
+        final ProductService productService = new ProductService();
+        productService.displayAppleTablets();
+
+        // TODO add a method in the ProductService to display all the products with a price bigger than 100
+    }
+
+    private static void chainedProductConsumers() {
         final Product product = new Product(10, "iSomething", 500);
         final Consumer<Product> productConsumer = it ->
                 System.out.println("The selected product is " + product);
         productConsumer.accept(product);
 
-        final Consumer<Product> preProcessor = product1 -> System.out.println("Pre-processing the product...");
-        final Consumer<Product> postProcessor = it -> System.out.println("Post processing " + it);
+        final Consumer<Product> preProcessor = prod -> System.out.println("Pre-processing the product '" + prod + "'...");
+        final Consumer<Product> postProcessor = prod -> System.out.println("Post processing the product '" + prod + "'...");
+
+        // orchestrating several consumers
         preProcessor.andThen(productConsumer)
                     .andThen(postProcessor)
                     // any number of chained consumers
                     .accept(product);
-
-        final ProductService productService = new ProductService();
-        productService.displayAppleTablets();
-
-        // TODO add a method in the ProductService to display all the products with a price bigger than 100
     }
 
     private static void sectionConsumers() {
