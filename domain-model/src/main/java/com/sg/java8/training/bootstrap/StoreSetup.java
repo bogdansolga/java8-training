@@ -27,7 +27,7 @@ public final class StoreSetup {
         final Manager john = new Manager(1, "John Doe");
         final Manager jane = new Manager(2, "Jane Charming");
 
-        defaultStore = new Store(1, "eMag", "Over there",
+        defaultStore = new Store(1, "Goodies", "Over there",
                                  new HashSet<>(Arrays.asList(tabletsSection, monitorsSection, laptopsSection)),
                                  new HashSet<>(Arrays.asList(john, jane)));
     }
