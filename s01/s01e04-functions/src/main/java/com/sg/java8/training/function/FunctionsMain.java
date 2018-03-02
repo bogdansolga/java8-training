@@ -6,13 +6,16 @@ import com.sg.java8.training.function.service.ProductService;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
  * A few {@link java.util.function.Function} usage samples
  */
+@SuppressWarnings("unused")
 public class FunctionsMain {
 
     public static void main(String[] args) {
@@ -36,7 +39,8 @@ public class FunctionsMain {
         System.out.println(lowerCase.apply("SOME"));
 
         final Function<String, String> subString = value -> value.substring(0, 7);
-        System.out.println(lowerCase.andThen(subString).apply("Testing functions chaining"));
+        System.out.println(lowerCase.andThen(subString)
+                                    .apply("Testing functions chaining"));
 
         // using Functions as methods
         System.out.println(aFunctionAsAMethod().apply(20));
@@ -71,17 +75,17 @@ public class FunctionsMain {
             return value.length() * 10;
         };
 
+        System.out.println(first.andThen(second)
+                                .andThen(third)
+                                .apply("something"));
+
+        System.out.println();
+
         // first applies the {@code before} function to its input,
         // and then applies this function to the result
         System.out.println(first.compose(second)
                                 .compose(third)
                                 .apply("f(g(h(x)))")); // any text can go in here
-
-        System.out.println();
-
-        System.out.println(first.andThen(second)
-                                .andThen(third)
-                                .apply("2351231"));
     }
 
     private static void mapFunctions() {
