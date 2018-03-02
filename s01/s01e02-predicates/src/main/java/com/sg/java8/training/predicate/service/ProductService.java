@@ -7,6 +7,7 @@ import com.sg.java8.training.model.StoreSection;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -20,7 +21,7 @@ public class ProductService {
         final Section tablets = StoreSetup.getDefaultStore()
                                           .getStoreSections()
                                           .stream()
-                                          .filter(section -> section.getName().equals(StoreSection.Tablets))
+                                          .filter(tabletsSection())
                                           .findFirst()
                                           .orElseThrow(() -> new IllegalArgumentException("There's no section named 'Tablets'"));
 
@@ -30,5 +31,9 @@ public class ProductService {
         return products.stream()
                        .filter(product -> product.getName().toLowerCase().contains("nexus"))
                        .collect(Collectors.toList());
+    }
+
+    private Predicate<Section> tabletsSection() {
+        return section -> section.getName().equals(StoreSection.Tablets);
     }
 }
