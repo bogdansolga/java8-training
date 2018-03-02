@@ -36,6 +36,8 @@ public final class StoreSetup {
         return defaultStore;
     }
 
+    private StoreSetup() {}
+
     private static List<Product> buildDefaultTablets() {
         final List<Product> tablets = new ArrayList<>();
 
