@@ -136,7 +136,7 @@ public class StreamsMain {
     }
 
     private static void streamOperations() {
-        final List<String> holiday = Arrays.asList("I want a STRINGS, not just a weekend".split(" "));
+        final List<String> holiday = Arrays.asList("I want a holiday, not just a weekend".split(" "));
 
         final Predicate<String> longWordPredicate = word -> word.length() > 5;
         final Optional<String> longWord = holiday.stream()
@@ -149,11 +149,6 @@ public class StreamsMain {
         final TreeSet<String> distinctWords = holiday.stream()
                                                      .distinct()
                                                      .collect(Collectors.toCollection(TreeSet::new));
-        //System.out.println(distinctWords);
-
-        final String reAssembledString = holiday.stream()
-                                                .reduce("", (first, second) -> first + " " + second);
-        System.out.println(reAssembledString.trim());
     }
 
     private static void flatMapOperations() {
