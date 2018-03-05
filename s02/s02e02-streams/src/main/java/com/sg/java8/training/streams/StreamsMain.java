@@ -8,29 +8,25 @@ import com.sg.java8.training.model.StoreSection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.ForkJoinTask;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * A few {@link java.util.stream.Stream}s usage samples
  */
+@SuppressWarnings("unused")
 public class StreamsMain {
-
-    private static final int AVAILABLE_PROCESSORS = Runtime.getRuntime().availableProcessors();
 
     private static final List<String> STRINGS = Arrays.asList("I want a holiday, not just a weekend".split(" "));
 
@@ -67,11 +63,15 @@ public class StreamsMain {
 
     private static void reduceOperations() {
         final Optional<String> reduce = STRINGS.stream()
-                                               .reduce((primul, alDoilea) -> primul + "|" + alDoilea);
+                                               .reduce((first, second) -> first + "|" + second);
         reduce.ifPresent(value -> System.out.println("The reduced value is " + value));
 
         final String reduceWithIdentity = STRINGS.stream()
-                                                 .reduce("{", (x, y) -> x + "*" + y);
+                                                 .reduce("{", (x, y) -> x + "," + y);
+
+        IntStream.rangeClosed(0, 50)
+                 .sum();
+
         System.out.println(reduceWithIdentity);
     }
 
@@ -179,16 +179,8 @@ public class StreamsMain {
         STRINGS.parallelStream()
                .forEach(item -> System.out.println(Thread.currentThread().getName() + ": " + item));
 
-        final ForkJoinPool forkJoinPool = new ForkJoinPool(AVAILABLE_PROCESSORS / 2);
-        final ForkJoinTask<?> forkJoinTask = forkJoinPool.submit(() ->
-                                                                         System.out.println(Thread.currentThread().getName() + " - something"));
-        if (forkJoinTask.isDone()) {
-            try {
-                System.out.println(forkJoinTask.get());
-            } catch (final ExecutionException | InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        Stream<String> dynamicParallelStream =
+                StreamSupport.stream(STRINGS.spliterator(), STRINGS.size() > 100);
     }
 
     private static void collectorsSamples() {
@@ -217,10 +209,9 @@ public class StreamsMain {
         final Map<String, Integer> wordsLength = STRINGS.stream()
                                                         .distinct()
                                                         .collect(Collectors.toMap(value -> value, String::length));
-        wordsLength.putIfAbsent("something", 10);
-
-        final Map<Integer, String> months = new HashMap<>();
-        months.put(1, "Jan");
-        months.put(2, "Feb");
+        // three ways to apply streams on maps
+        wordsLength.keySet().stream();
+        wordsLength.values().stream();
+        wordsLength.entrySet().stream();
     }
 }
