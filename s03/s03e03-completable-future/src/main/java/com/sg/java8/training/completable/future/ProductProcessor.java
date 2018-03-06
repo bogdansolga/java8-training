@@ -5,6 +5,7 @@ import com.sg.java8.training.model.Section;
 import com.sg.java8.training.model.Store;
 import org.jooq.lambda.Unchecked;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
@@ -26,7 +27,8 @@ class ProductProcessor {
             return store.getStoreSections()
                         .stream()
                         .map(Section::getProducts)
-                        .flatMap(Collection::stream)
+                        .flatMap(products -> products.orElse(new ArrayList<>())
+                                                     .stream())
                         .filter(product -> product.getName().contains(productName))
                         .count();
         });
@@ -47,6 +49,8 @@ class ProductProcessor {
             displayStageAndThreadName("Getting the product price");
             sleepALittle();
 
+            //if (true) throw new RuntimeException("Shift happens");
+
             return CompletableFuture.supplyAsync(() -> productsStock * 230d);
         };
     }
@@ -61,6 +65,7 @@ class ProductProcessor {
     }
     // TODO return a Map of the products and their stock, using a grouping collector
 
+    // simulates a long running processing
     private void sleepALittle() {
         Unchecked.consumer(it -> Thread.sleep(getRandomSleepDuration()))
                  .accept(null);
