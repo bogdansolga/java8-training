@@ -22,7 +22,7 @@
     <properties>
         <java.version>1.8</java.version>
 
-        <jool.version>0.9.12</jool.version>
+        <jool.version>0.9.13</jool.version>
 
         <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
 
@@ -32,7 +32,7 @@
     <dependencies>
         <dependency>
             <groupId>org.jooq</groupId>
-            <artifactId>jool</artifactId>
+            <artifactId>jool-java-8</artifactId>
             <version>${jool.version}</version>
         </dependency>
     </dependencies>
