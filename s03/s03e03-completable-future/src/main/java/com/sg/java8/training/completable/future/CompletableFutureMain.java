@@ -14,7 +14,7 @@ public class CompletableFutureMain {
 
     private static final int AVAILABLE_PROCESSORS = Runtime.getRuntime().availableProcessors();
 
-    private static final Executor EXECUTOR = Executors.newWorkStealingPool(AVAILABLE_PROCESSORS / 2);
+    private static final Executor EXECUTOR = Executors.newFixedThreadPool(AVAILABLE_PROCESSORS / 4);
 
     public static void main(String[] args) {
         helloSimpleCompletableFutures();
@@ -52,18 +52,17 @@ public class CompletableFutureMain {
         final CompletableFuture<String> completableFuture =
                 CompletableFuture.supplyAsync(() -> "a very simple text");
 
-        final Consumer<String> stringConsumer = stringPrinter();
+        final Consumer<String> stringConsumer = displayValueAndRunningThread();
         completableFuture.thenAcceptAsync(stringConsumer);
 
         final CompletableFuture<String> anotherFuture =
                 CompletableFuture.supplyAsync(() -> "another text");
 
         completableFuture.thenCompose(value -> anotherFuture);
-        final CompletableFuture<String> completableFuture1 =
-                anotherFuture.thenApplyAsync(value -> value);
+        System.out.println(anotherFuture.thenApplyAsync(value -> value)
+                                        .join());
 
         completableFuture.exceptionally(throwable -> "Thrown: " + throwable.getMessage());
-
         completableFuture.thenApplyAsync(String::toUpperCase, Executors.newCachedThreadPool());
         completableFuture.acceptEither(anotherFuture, stringConsumer);
     }
@@ -90,8 +89,23 @@ public class CompletableFutureMain {
 
         System.out.println(future.join());
 
-        final CompletableFuture<Void> finalFuture = CompletableFuture.allOf(first, second);
-        finalFuture.thenAccept(value -> notifyFinishedTasks());
+        multipleCallsProcessing(first, second, third);
+    }
+
+    private static void multipleCallsProcessing(final CompletableFuture<String> first,
+                                                final CompletableFuture<String> second,
+                                                final CompletableFuture<Integer> third) {
+
+        // will return a CompletableFuture<Void> when all the tasks will be finished --> no further processing can be made
+        final CompletableFuture<Void> allOfFuture = CompletableFuture.allOf(first, second, third);
+        allOfFuture.thenAccept(value -> notifyFinishedTasks());
+
+        // will return a CompletableFuture<Object> when any of the tasks will be finished --> can chain further processing(s)
+        final CompletableFuture<Object> anyOfFuture = CompletableFuture.anyOf(first, second, third);
+        anyOfFuture.thenAccept(returnValue -> System.out.println("Processing the value '" + returnValue + "'..."));
+
+        final Object result = anyOfFuture.join(); // the first finished processing
+        System.out.println("The first finished processing is '" + result + "'");
     }
 
     private static void simpleProductsOperations() {
@@ -108,11 +122,13 @@ public class CompletableFutureMain {
                 - 3) get the displayed text, for the products price and stock
         */
 
-        final String productsText = getProductsStock.thenComposeAsync(getProductsPrice, EXECUTOR)
-                                                    .thenComposeAsync(getProductsDisplayText, EXECUTOR)
-                                                    .exceptionally(Throwable::getMessage)
-                                                    .join();
-        System.out.println(productsText);
+        final String displayedText = getProductsStock.thenComposeAsync(getProductsPrice, EXECUTOR)
+                                                     .thenComposeAsync(getProductsDisplayText)
+                                                     .exceptionally(Throwable::getMessage)
+                                                     .join();
+        System.out.println("Got the text '" + displayedText + "'");
+
+        shutdownExecutor();
     }
 
     private static void moreComplexProductsOperations() {
@@ -131,12 +147,15 @@ public class CompletableFutureMain {
                 - 4) when either the displayed text or an exception is returned, complete the stage asynchronously
         */
 
-        final String productsText = getProductsStock.applyToEitherAsync(getReserveStock, Function.identity(), EXECUTOR)
-                                                    .thenComposeAsync(getProductsPrice, EXECUTOR)
-                                                    .thenComposeAsync(getProductsDisplayText, EXECUTOR)
-                                                    .whenCompleteAsync(CompletableFutureMain::processResult, EXECUTOR)
-                                                    .join();
-        System.out.println(productsText);
+        // --> use the final call as a sync / async calls orchestration
+        final String displayedText = getProductsStock.applyToEitherAsync(getReserveStock, Function.identity(), EXECUTOR)
+                                                     .thenComposeAsync(getProductsPrice, EXECUTOR)
+                                                     .thenComposeAsync(getProductsDisplayText, EXECUTOR)
+                                                     .whenCompleteAsync(CompletableFutureMain::processResult, EXECUTOR)
+                                                     .join();
+        System.out.println("Got the text '" + displayedText + "'");
+
+        shutdownExecutor();
     }
 
     private static void processResult(final String result, final Throwable exception) {
@@ -155,12 +174,12 @@ public class CompletableFutureMain {
         System.out.println(Thread.currentThread().getName() + " - All good");
     }
 
-    private static Consumer<String> stringPrinter() {
+    private static Consumer<String> displayValueAndRunningThread() {
         return value -> System.out.println(Thread.currentThread().getName() + " - " + value);
     }
 
     private static void shutdownExecutor() {
         ((ExecutorService) EXECUTOR).shutdown();
-        //System.out.println("The executor was properly shutdown");
+        System.out.println("The executor was properly shutdown");
     }
 }
