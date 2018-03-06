@@ -5,6 +5,7 @@ import com.sg.java8.training.model.Product;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -28,13 +29,11 @@ public class AsyncProcessingSample {
     public static void main(String[] args) {
         // 0 - create the ExecutorService and ExecutorCompletionService objects
 
-        /* An ExecutorService provides methods to manage termination and methods that can produce a
-            Future for tracking progress of one or more asynchronous tasks.
-            It is the entry point into concurrent handling code in Java.
+        /* An ExecutorService provides methods to manage termination and methods that produce Future wrapped objects,
+            for tracking progress of one or more asynchronous tasks. It is the entry point into concurrent handling code in Java.
             A few predefined implementations are available through static methods in the Executors class.
          */
         final ExecutorService executorService = Executors.newFixedThreadPool(AVAILABLE_PROCESSORS / 2);
-        //final ExecutorService executorService = new ForkJoinPool(AVAILABLE_PROCESSORS / 2);
 
         final ExecutorCompletionService<Integer> executorCompletionService =
                 new ExecutorCompletionService<>(executorService);
@@ -56,11 +55,11 @@ public class AsyncProcessingSample {
         */
         Future<Integer> productStock;
 
-        // 2 - poll for async results --> joining phase
+        // 2 - poll the executor completion service for async results --> joining (/ reducing) phase
         final List<Integer> productStocks = new ArrayList<>(submittedTasks);
         try {
             for (int i = 0; i < submittedTasks; i++) {
-                productStock = executorCompletionService.poll(1000, TimeUnit.MILLISECONDS);
+                productStock = executorCompletionService.poll(2000, TimeUnit.MILLISECONDS);
 
                 if (productStock != null && productStock.isDone()) {
                     productStocks.add(productStock.get());
@@ -79,7 +78,8 @@ public class AsyncProcessingSample {
         System.out.println("The total stock of products is " + totalStock);
 
         // 3 - if needed - shutdown the executorService
-        executorService.shutdown();
+        final Optional<List<Runnable>> unfinishedTasks = Optional.ofNullable(executorService.shutdownNow());
+        unfinishedTasks.ifPresent(tasks -> System.err.println("There are " + tasks.size() + " unfinished tasks"));
     }
 
     /**
@@ -95,7 +95,7 @@ public class AsyncProcessingSample {
         @Override
         public Integer call() throws Exception {
             final long now = System.currentTimeMillis();
-            Thread.sleep(RANDOM.nextInt(500));
+            Thread.sleep(RANDOM.nextInt(2000));
             System.out.println("[" + Thread.currentThread().getName() + "] Got the stock from the deposit "
                                        + depositId + " in " + (System.currentTimeMillis() - now) + " ms");
 
