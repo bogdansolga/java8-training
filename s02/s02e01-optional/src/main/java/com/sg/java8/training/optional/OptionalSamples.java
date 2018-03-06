@@ -65,6 +65,8 @@ public class OptionalSamples {
     }
 
     private static void isPresent(final Optional<String> optionalDay) {
+        // optionalDay.get(); --> NOT recommended, as it may throw a NoSuchElementException exception
+
         if (optionalDay.isPresent()) {
             final String unWrapped = optionalDay.get();
             process(unWrapped); // process the unwrapped value
