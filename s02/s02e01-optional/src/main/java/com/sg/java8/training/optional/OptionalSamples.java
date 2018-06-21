@@ -16,9 +16,20 @@ public class OptionalSamples {
     private static final Random RANDOM = new Random();
 
     public static void main(String[] args) {
+        simpleOptionalUsage();
+
         optionalUsageModes();
 
         productOptionals();
+    }
+
+    private static void simpleOptionalUsage() {
+        String nullableValue = getNullableDayOfWeek();
+
+        Optional<String> optionalValue = Optional.ofNullable(nullableValue);
+        int parsedValue = optionalValue.map(value -> Integer.parseInt(value))
+                                       .orElse(0);
+        System.out.println(parsedValue);
     }
 
     private static void optionalUsageModes() {
@@ -96,7 +107,6 @@ public class OptionalSamples {
 
         // the section may not contain any products
         final Optional<List<Product>> optionalProducts = optionalTabletsSection.flatMap(section -> section.getProducts());
-
         optionalProducts.flatMap(products -> getAppleTablet(products))  // the list of products may not contain an Apple tablet
                         .flatMap(product -> product.getDiscount())      // the tablet may not have a discount
                         .ifPresent(discount -> System.out.println("The Apple tablet has the discount " + discount));
@@ -112,12 +122,13 @@ public class OptionalSamples {
                 .flatMap(Section::getProducts)
                 .flatMap(OptionalSamples::getAppleTablet)
                 .flatMap(Product::getDiscount)
-                .flatMap(discount -> Optional.of(discount.getValue()))
+                .flatMap(discount -> Optional.of(discount.getValue() * 2.5))
                 .ifPresent(value -> System.out.println("The discount value is " + value));
     }
 
     private static String getNullableDayOfWeek() {
-        return System.currentTimeMillis() % 2 == 0 ? Integer.toString(LocalDate.now().getDayOfWeek().getValue()) : null;
+        return System.currentTimeMillis() % 2 == 0 ?
+                Integer.toString(LocalDate.now().getDayOfWeek().getValue()) : null;
     }
 
     private static void process(final String value) {
