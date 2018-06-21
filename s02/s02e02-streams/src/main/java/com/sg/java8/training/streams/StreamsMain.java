@@ -2,12 +2,14 @@ package com.sg.java8.training.streams;
 
 import com.sg.java8.training.bootstrap.StoreSetup;
 import com.sg.java8.training.model.Product;
+import com.sg.java8.training.model.Section;
 import com.sg.java8.training.model.Store;
 import com.sg.java8.training.model.StoreSection;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -28,10 +30,14 @@ import java.util.stream.StreamSupport;
 @SuppressWarnings("unused")
 public class StreamsMain {
 
+    private static final long BYTES_IN_MB = 1048576;
+
     private static final List<String> STRINGS = Arrays.asList("I want a holiday, not just a weekend".split(" "));
 
     public static void main(String[] args) {
         simpleStreams();
+
+        loopFusionTest();
 
         findOperations();
 
@@ -40,8 +46,6 @@ public class StreamsMain {
         averageOnStrings();
 
         parallelStreams();
-
-        simpleStreamsTests();
 
         streamOperations();
 
@@ -52,6 +56,45 @@ public class StreamsMain {
         numbersStreams();
 
         mapOperations();
+
+        streamDebuggerTest();
+    }
+
+    private static void simpleStreams() {
+        Set<Integer> wordsLengths = STRINGS.stream()
+                                           .map(value -> value.length()) // only if a conversion is needed
+                                           .collect(Collectors.toSet());
+        System.out.println(wordsLengths);
+
+        Set<Integer> wordsLongerThan3Chars = STRINGS.stream()
+                                                    .filter(value -> value.length() > 3) // only if a filtering is needed
+                                                    .map(value -> value.length())
+                                                    .collect(Collectors.toSet());
+        System.out.println(wordsLongerThan3Chars);
+
+        Set<String> words = STRINGS.stream()
+                                   .sorted()
+                                   .collect(Collectors.toCollection(TreeSet::new));
+        System.out.println(words);
+
+        Set<List<char[]>> wordsLetters = STRINGS.stream()
+                                                .map(value -> Arrays.asList(value.toCharArray()))
+                                                .collect(Collectors.toSet());
+        System.out.println(wordsLetters.size());
+        wordsLetters.forEach(array -> array.forEach(value ->
+                System.out.println(Arrays.toString(value) + ",")));
+    }
+
+    private static void loopFusionTest() {
+        System.out.println("There are " + STRINGS.size() + " words to be streamed");
+        final Optional<Integer> first = STRINGS.stream()
+                                               .peek(value -> System.out.println("m: " + value))
+                                               .map(value -> value.length())
+                                               .peek(value -> System.out.println("f: " + value))
+                                               .filter(value -> value > 2)
+                                               .peek(value -> System.out.println("a: " + value))
+                                               .findFirst();
+        first.ifPresent(value -> System.out.println("The value is " + value));
     }
 
     private static void averageOnStrings() {
@@ -86,69 +129,12 @@ public class StreamsMain {
         System.out.println("The text has words longer than 5 chars - " + hasLongerThan5CharWords);
     }
 
-    private static void simpleStreams() {
-        Set<Integer> wordsLengths = STRINGS.stream()
-                                           .map(value -> value.length()) // only if a conversion is needed
-                                           .collect(Collectors.toSet());
-        System.out.println(wordsLengths);
-
-        Set<Integer> wordsLongerThan3Chars = STRINGS.stream()
-                                                    .filter(value -> value.length() > 3) // only if a filtering is needed
-                                                    .map(value -> value.length())
-                                                    .collect(Collectors.toSet());
-        System.out.println(wordsLongerThan3Chars);
-
-        Set<String> words = STRINGS.stream()
-                                   .sorted()
-                                   .collect(Collectors.toSet());
-        System.out.println(words);
-
-        Set<List<char[]>> wordsLetters = STRINGS.stream()
-                                                .map(value -> Arrays.asList(value.toCharArray()))
-                                                .collect(Collectors.toSet());
-        System.out.println(wordsLetters.size());
-        wordsLetters.forEach(array -> array.forEach(value ->
-                                            System.out.println(Arrays.toString(value) + ",")));
-
-        Store store = StoreSetup.getDefaultStore();
-
-        List<Product> allProducts = store.getStoreSections()
-                                         .stream()
-                                         .flatMap(section -> section.getProducts()
-                                                                    .orElse(new ArrayList<>())
-                                                                    .stream())
-                                         .collect(Collectors.toList());
-    }
-
-    private static void simpleStreamsTests() {
-        //System.out.println(STRINGS);
-
-        final Set<String> shortWords = STRINGS.stream()
-                                              .filter(word -> word.length() < 5)
-                                              .collect(Collectors.toSet());
-        //System.out.println(shortWords);
-
-        final List<Integer> wordsLengths = STRINGS.stream()
-                                                  .filter(word -> word.length() < 7) // 1st pipeline stage
-                                                  .map(word -> word.length())        // 2nd pipeline stage
-                                                  .collect(Collectors.toList());     // terminal operation
-        System.out.println(wordsLengths);
-    }
-
     private static void streamOperations() {
-        final List<String> holiday = Arrays.asList("I want a holiday, not just a weekend".split(" "));
-
         final Predicate<String> longWordPredicate = word -> word.length() > 5;
-        final Optional<String> longWord = holiday.stream()
+        final Optional<String> longWord = STRINGS.stream()
                                                  .filter(longWordPredicate)
                                                  .findFirst();
-
-        final boolean containsLongWords = holiday.stream()
-                                                 .anyMatch(longWordPredicate);
-
-        final TreeSet<String> distinctWords = holiday.stream()
-                                                     .distinct()
-                                                     .collect(Collectors.toCollection(TreeSet::new));
+        longWord.ifPresent(value -> System.out.println(value));
     }
 
     private static void flatMapOperations() {
@@ -162,7 +148,8 @@ public class StreamsMain {
                                           .filter(product -> product.getName().contains("Apple"))
                                           .collect(Collectors.toSet());
 
-        tablets.forEach(tablet -> System.out.println(tablet.getName()));
+        System.out.println("We have " + tablets.size() + " products");
+        tablets.forEach(tablet -> System.out.println("\t" + tablet.getName()));
 
         final Stream<List<String>> listStream = Stream.of(Arrays.asList("some default values".split(" ")));
         final Set<String> collect = listStream.flatMap(Collection::stream)
@@ -171,6 +158,13 @@ public class StreamsMain {
     }
 
     private static void parallelStreams() {
+        final int availableProcessors = Runtime.getRuntime().availableProcessors();
+
+        final String value = Integer.toString(availableProcessors / 4);
+        System.out.println("Running with " + value + " cores");
+
+        System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", value);
+
         STRINGS.parallelStream()
                .forEach(item -> System.out.println(Thread.currentThread().getName() + ": " + item));
 
@@ -181,13 +175,17 @@ public class StreamsMain {
     private static void collectorsSamples() {
         final Map<String, Integer> wordsLength = STRINGS.stream()
                                                         .distinct()
-                                                        .collect(Collectors.toMap(value -> value, String::length));
+                                                        .collect(Collectors.toMap(Function.identity(), String::length));
         System.out.println(wordsLength);
 
         final Map<String, Long> collect = STRINGS.stream()
                                                  .collect(Collectors.groupingBy(
                                                          Function.identity(), Collectors.counting()));
         System.out.println(collect);
+
+        final TreeSet<String> distinctWords = STRINGS.stream()
+                                                     .collect(Collectors.toCollection(TreeSet::new));
+        System.out.println("The distinct words are " + distinctWords);
     }
 
     private static void numbersStreams() {
@@ -208,5 +206,17 @@ public class StreamsMain {
         wordsLength.keySet().stream();
         wordsLength.values().stream();
         wordsLength.entrySet().stream();
+    }
+
+    private static void streamDebuggerTest() {
+        Store store = StoreSetup.getDefaultStore();
+        List<Product> allProducts = store.getStoreSections()
+                                         .stream()
+                                         .filter(section -> section.getId() > 2)
+                                         .flatMap(section -> section.getProducts()
+                                                                    .orElse(new ArrayList<>())
+                                                                    .stream())
+                                         .collect(Collectors.toList());
+        System.out.println(allProducts);
     }
 }
