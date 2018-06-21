@@ -1,6 +1,7 @@
 package com.sg.java8.training.jool;
 
 import org.jooq.lambda.Unchecked;
+import org.jooq.lambda.fi.util.function.CheckedFunction;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -49,6 +50,11 @@ public class UncheckedMain {
                         .apply(date);
     }
 
+    private static CheckedFunction<String, Date> uncheckedConversion() {
+        return date -> Unchecked.function(it -> parseDate(it.toString()), exceptionHandler())
+                                .apply(date);
+    }
+
     private static boolean uncheckedPredicate(final List<String> datesToBeParsed) {
         final Date today = new Date();
         return datesToBeParsed.stream()
@@ -78,7 +84,11 @@ public class UncheckedMain {
     }
 
     private static Consumer<Throwable> exceptionHandler() {
-        return exception -> System.err.println(exception.getClass().getSimpleName() + " -> " +
-                                                       exception.getMessage());
+        return exception -> {
+            final String exceptionMessage = exception.getMessage();
+            System.err.println(exceptionMessage);
+
+            throw new RuntimeException(exceptionMessage);
+        };
     }
 }
