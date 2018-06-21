@@ -26,13 +26,13 @@ public class ProductService {
                                               .orElseThrow(() -> new IllegalArgumentException("There are no products"));
 
         /*
-            Q:  when to use an inline lambda expression and when to use a methods?
-            A:  if the lambda expression needs to be a statement lambda --> use a method
+            Q:  when to use an inline lambda expression and when to use methods?
+            A:  if the lambda expression needs to be a statement lambda and / or it needs to be reused --> use a method
                 if the lambda expression can be written on a single line --> usa an inline lambda
         */
 
-        // Single Responsibility Principle
-        products.stream()                       // separation of concerns
+        // Single Responsibility Principle / Separation of Concerns
+        products.stream()                       // 0 - obtaining a stream from the collection
                 .filter(appleProducts())        // 1 - filtering stage
                 .forEach(consumeProduct());     // 2 - processing / consuming stage
     }
