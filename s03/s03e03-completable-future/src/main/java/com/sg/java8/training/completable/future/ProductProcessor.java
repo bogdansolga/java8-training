@@ -6,7 +6,6 @@ import com.sg.java8.training.model.Store;
 import org.jooq.lambda.Unchecked;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
@@ -46,12 +45,12 @@ class ProductProcessor {
 
     Function<Long, CompletableFuture<Double>> getProductsPrice() {
         return productsStock -> {
-            displayStageAndThreadName("Getting the product price");
+            displayStageAndThreadName("Getting the product price, for the stock " + productsStock);
             sleepALittle();
 
             //if (true) throw new RuntimeException("Shift happens");
 
-            return CompletableFuture.supplyAsync(() -> productsStock * 230d);
+            return CompletableFuture.supplyAsync(() -> productsStock * RANDOM.nextDouble() * 1000);
         };
     }
 
