@@ -6,9 +6,7 @@ import com.sg.java8.training.function.service.ProductService;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
