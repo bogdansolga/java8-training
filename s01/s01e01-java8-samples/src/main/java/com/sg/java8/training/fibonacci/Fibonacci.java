@@ -16,6 +16,7 @@ class Fibonacci {
         }
     }
 
+    // what to do, not how
     static void functional(final int until) {
         IntStream fibonacciStream = Stream.iterate(new int[]{1, 1}, value -> new int[] {value[1], value[0] + value[1]})
                                           .mapToInt(number -> number[0]);
@@ -23,6 +24,7 @@ class Fibonacci {
                        .forEach(number -> System.out.print(number + " "));
     }
 
+    // how to compute the list of numbers
     private static int fibonacci(int number) {
         int first = 1;
         int second = 1;
