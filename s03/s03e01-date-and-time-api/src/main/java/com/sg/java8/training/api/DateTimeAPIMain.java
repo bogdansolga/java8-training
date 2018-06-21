@@ -11,9 +11,7 @@ import java.time.OffsetTime;
 import java.time.Period;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.time.temporal.Temporal;
 import java.util.Date;
-import java.util.TimeZone;
 
 /**
  * A few {@link java.time.LocalDate}s and {@link java.time.LocalTime}s usage samples
