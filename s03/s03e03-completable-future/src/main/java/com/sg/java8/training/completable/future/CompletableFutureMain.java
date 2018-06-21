@@ -1,5 +1,6 @@
 package com.sg.java8.training.completable.future;
 
+import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
@@ -17,8 +18,6 @@ public class CompletableFutureMain {
     private static final Executor EXECUTOR = Executors.newFixedThreadPool(AVAILABLE_PROCESSORS / 4);
 
     public static void main(String[] args) {
-        helloSimpleCompletableFutures();
-
         simpleCompletableFutures();
 
         chainedCompletionStages();
@@ -30,66 +29,43 @@ public class CompletableFutureMain {
         shutdownExecutor();
     }
 
-    private static void helloSimpleCompletableFutures() {
-        final CompletableFuture<String> completableFuture = CompletableFuture.supplyAsync(() -> {
-            displayCurrentThread();
-            return "I will run on Saturday";
-        });
-        System.out.println(completableFuture.join());
-
-        completableFuture.thenAcceptAsync(value -> {
-            displayCurrentThread();
-            System.out.println("The received value is " + value);
-        });
-
-        completableFuture.exceptionally(ex -> "Some exception occurred");
-
-        String processingResult = completableFuture.join();
-        System.out.println("The processing returned " + processingResult);
-    }
-
     private static void simpleCompletableFutures() {
-        final CompletableFuture<String> completableFuture =
-                CompletableFuture.supplyAsync(() -> "a very simple text");
+        CompletableFuture<Void> runningCF = CompletableFuture.runAsync(() -> System.out.println("Hello, CompletableFuture!"));
+        runningCF.join();
 
-        final Consumer<String> stringConsumer = displayValueAndRunningThread();
-        completableFuture.thenAcceptAsync(stringConsumer);
+        CompletableFuture<String> simpleCFAsync = CompletableFuture.supplyAsync(() -> "Returning from " + getCurrentThreadName());
+        simpleCFAsync.thenAcceptAsync(value -> System.out.println(getCurrentThreadName() + " - Got the value: " + value));
 
-        final CompletableFuture<String> anotherFuture =
-                CompletableFuture.supplyAsync(() -> "another text");
-
-        completableFuture.thenCompose(value -> anotherFuture);
-        System.out.println(anotherFuture.thenApplyAsync(value -> value)
-                                        .join());
-
-        completableFuture.exceptionally(throwable -> "Thrown: " + throwable.getMessage());
-        completableFuture.thenApplyAsync(String::toUpperCase, Executors.newCachedThreadPool());
-        completableFuture.acceptEither(anotherFuture, stringConsumer);
+        CompletableFuture<String> simpleCF = CompletableFuture.supplyAsync(() -> "Returning from " + getCurrentThreadName());
+        simpleCF.thenAccept(value -> System.out.println(getCurrentThreadName() + " - Got the value: " + value));
     }
 
     private static void chainedCompletionStages() {
         CompletableFuture<String> first = CompletableFuture.supplyAsync(() -> {
             displayCurrentThread();
+            System.out.println("Processing the first CompletableFuture...");
             return "first";
-        }, EXECUTOR);
+        });
 
         CompletableFuture<String> second = CompletableFuture.supplyAsync(() -> {
             displayCurrentThread();
+            System.out.println("Processing the second CompletableFuture...");
             return "second";
         }, EXECUTOR);
 
         CompletableFuture<Integer> third = CompletableFuture.supplyAsync(() -> {
             displayCurrentThread();
-            return 7;
-        }, EXECUTOR);
+            System.out.println("Processing the third CompletableFuture...");
+            return new Random().nextInt(400);
+        });
 
-        final CompletableFuture<Integer> future =
-                first.thenComposeAsync(value -> second)
-                     .thenComposeAsync(value -> third);
-
-        System.out.println(future.join());
+        final CompletableFuture<Integer> chainedFuture = first.thenComposeAsync(value -> second)
+                                                              .thenComposeAsync(value -> third);
+        System.out.println("The processing result is " + chainedFuture.join());
 
         multipleCallsProcessing(first, second, third);
+
+        shutdownExecutor();
     }
 
     private static void multipleCallsProcessing(final CompletableFuture<String> first,
@@ -122,7 +98,7 @@ public class CompletableFutureMain {
                 - 3) get the displayed text, for the products price and stock
         */
 
-        final String displayedText = getProductsStock.thenComposeAsync(getProductsPrice, EXECUTOR)
+        final String displayedText = getProductsStock.thenComposeAsync(getProductsPrice)
                                                      .thenComposeAsync(getProductsDisplayText)
                                                      .exceptionally(Throwable::getMessage)
                                                      .join();
@@ -152,6 +128,7 @@ public class CompletableFutureMain {
                                                      .thenComposeAsync(getProductsPrice, EXECUTOR)
                                                      .thenComposeAsync(getProductsDisplayText, EXECUTOR)
                                                      .whenCompleteAsync(CompletableFutureMain::processResult, EXECUTOR)
+                                                     .exceptionally(Throwable::getMessage)
                                                      .join();
         System.out.println("Got the text '" + displayedText + "'");
 
@@ -159,6 +136,7 @@ public class CompletableFutureMain {
     }
 
     private static void processResult(final String result, final Throwable exception) {
+        //System.out.println("Processing the result - " + result + ", " + exception);
         if (exception != null) {
             throw new RuntimeException(exception.getMessage());
         } else {
@@ -167,15 +145,15 @@ public class CompletableFutureMain {
     }
 
     private static void displayCurrentThread() {
-        System.out.println(Thread.currentThread().getName());
+        System.out.println(getCurrentThreadName());
+    }
+
+    private static String getCurrentThreadName() {
+        return Thread.currentThread().getName();
     }
 
     private static void notifyFinishedTasks() {
         System.out.println(Thread.currentThread().getName() + " - All good");
-    }
-
-    private static Consumer<String> displayValueAndRunningThread() {
-        return value -> System.out.println(Thread.currentThread().getName() + " - " + value);
     }
 
     private static void shutdownExecutor() {
