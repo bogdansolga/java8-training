@@ -21,6 +21,15 @@ public class ProductService {
         processAppleTablets(tablets);
     }
 
+    private Section getTabletsSection() {
+        return StoreSetup.getDefaultStore()
+                         .getStoreSections()
+                         .stream()
+                         .filter(tablets())
+                         .findFirst()
+                         .orElseThrow(() -> new IllegalArgumentException("There's no section named 'Tablets'"));
+    }
+
     private void processAppleTablets(final Section tablets) {
         final List<Product> products = tablets.getProducts()
                                               .orElseThrow(() -> new IllegalArgumentException("There are no products"));
@@ -42,15 +51,6 @@ public class ProductService {
 
     private Consumer<Product> consumeProduct() {
         return System.out::println;
-    }
-
-    private Section getTabletsSection() {
-        return StoreSetup.getDefaultStore()
-                         .getStoreSections()
-                         .stream()
-                         .filter(tablets())
-                         .findFirst()
-                         .orElseThrow(() -> new IllegalArgumentException("There's no section named 'Tablets'"));
     }
 
     private Predicate<Product> appleProducts() {
