@@ -20,21 +20,33 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     public Set<String> getSamsungTabletDescriptions() {
-        final Section tabletsSection = StoreSetup.getDefaultStore()
-                                                 .getStoreSections()
-                                                 .stream()
-                                                 .filter(section -> section.getName().equals(StoreSection.Tablets))
-                                                 .findFirst()
-                                                 .orElseThrow(() -> new IllegalArgumentException("There's no section named 'Tablets'"));
+        final Section tabletsSection = getTabletsSection();
 
-        final List<Product> tablets = tabletsSection.getProducts()
-                                                    .orElseThrow(() -> new IllegalArgumentException("There are no products"));
+        final List<Product> tablets = getProductsOrThrow(tabletsSection);
 
+        return getSamsungTabletsDescriptions(tablets);
+    }
+
+    private Section getTabletsSection() {
+        return StoreSetup.getDefaultStore()
+                         .getStoreSections()
+                         .stream()
+                         .filter(section -> section.getName().equals(StoreSection.Tablets))
+                         .findFirst()
+                         .orElseThrow(() -> new IllegalArgumentException("There's no section named 'Tablets'"));
+    }
+
+    private Set<String> getSamsungTabletsDescriptions(final List<Product> tablets) {
         return tablets.stream()
                       .filter(samsungProductsFilter())
                       .map(convertProductToString())
                       .peek(traceItem())
                       .collect(Collectors.toSet());
+    }
+
+    private List<Product> getProductsOrThrow(Section tabletsSection) {
+        return tabletsSection.getProducts()
+                             .orElseThrow(() -> new IllegalArgumentException("There are no products"));
     }
 
     private Consumer<String> traceItem() {
