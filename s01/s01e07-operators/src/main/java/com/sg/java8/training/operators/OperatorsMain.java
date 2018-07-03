@@ -22,9 +22,6 @@ public class OperatorsMain {
 
         final List<String> values = Arrays.asList("Some", "Random", "Values");
         values.replaceAll(lowerCase);
-
-        // using a Consumer
-        values.forEach(System.out::println);
     }
 
     private static void binaryOperators() {
