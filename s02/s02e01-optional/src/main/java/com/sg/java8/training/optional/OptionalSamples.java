@@ -72,6 +72,7 @@ public class OptionalSamples {
     }
 
     private static void ifPresent(final Optional<String> optionalDay) {
+        // if (value != null) { ... }
         optionalDay.ifPresent(it -> System.out.println("The wrapped value is " + it));
     }
 
