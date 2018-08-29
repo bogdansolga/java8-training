@@ -1,6 +1,7 @@
 package com.sg.java8.training.optional;
 
 import com.sg.java8.training.bootstrap.StoreSetup;
+import com.sg.java8.training.model.Discount;
 import com.sg.java8.training.model.Product;
 import com.sg.java8.training.model.Section;
 import com.sg.java8.training.model.Store;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 
 public class OptionalSamples {
 
@@ -112,8 +114,38 @@ public class OptionalSamples {
                         .flatMap(product -> product.getDiscount())      // the tablet may not have a discount
                         .ifPresent(discount -> System.out.println("The Apple tablet has the discount " + discount));
 
+        // the same processing, pre-Java 8
+        preJava8Processing();
+
         // everything in one processing
         chainedFlatMapping();
+    }
+
+    private static void preJava8Processing() {
+        // pre-Java 8
+        Store defaultStore = StoreSetup.getDefaultStore();
+        if (defaultStore != null) {
+            final Set<Section> storeSections = defaultStore.getStoreSections();
+            if (storeSections != null) {
+                final Section tablets = getTablets(storeSections);
+                if (tablets != null) {
+                    List<Product> products = tablets.getProducts().get();
+                    if (products != null) {
+                        final Product appleTablet = products.get(2);
+                        if (appleTablet != null) {
+                            final Discount discount = appleTablet.getDiscount().get();
+                            if (discount != null) {
+                                System.out.println("The Apple tablet has the discount " + discount.getValue());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private static Section getTablets(Set<Section> storeSections) {
+        return null;
     }
 
     private static void chainedFlatMapping() {
