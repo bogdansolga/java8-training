@@ -19,6 +19,6 @@ public class FunctionalVsImperativeDemo {
         }
 
         // functional processing --> what
-        strings.removeIf(value -> value.isEmpty());
+        strings.removeIf(String::isEmpty); // value -> value.isEmpty()
     }
 }
