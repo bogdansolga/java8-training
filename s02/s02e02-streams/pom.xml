@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.sg</groupId>
+        <groupId>net.safedata</groupId>
         <artifactId>s02</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
@@ -15,7 +15,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.sg</groupId>
+            <groupId>net.safedata</groupId>
             <artifactId>domain-model</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
