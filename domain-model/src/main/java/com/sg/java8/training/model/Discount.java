@@ -1,6 +1,8 @@
 package com.sg.java8.training.model;
 
-public class Discount {
+import java.io.Serializable;
+
+public class Discount implements Serializable {
 
     private final int value;
     private final Discount.Type discountType;
