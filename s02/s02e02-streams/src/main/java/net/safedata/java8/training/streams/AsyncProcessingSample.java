@@ -48,11 +48,6 @@ public class AsyncProcessingSample {
             submittedTasks++;
         }
 
-        /*
-            - a Future object is the result of an asynchronous computation, acting as a wrapper around the computed value
-            - the result can *only* be retrieved using the .get() method, when the computation has completed,
-            blocking (if necessary) until it is ready
-        */
         Future<Integer> productStock;
 
         // 2 - poll the executor completion service for async results --> joining (/ reducing) phase
