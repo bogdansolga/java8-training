@@ -24,6 +24,8 @@ public class AsyncProcessingSample {
 
     private static final int AVAILABLE_PROCESSORS = Runtime.getRuntime().availableProcessors();
 
+    private static final int MAX_WAIT_TIME_IN_MILLIS = 2000;
+
     private static final Random RANDOM = new Random();
 
     public static void main(String[] args) {
@@ -48,13 +50,18 @@ public class AsyncProcessingSample {
             submittedTasks++;
         }
 
+        /*
+            - a Future object is the result of an asynchronous computation, acting as a wrapper around the computed value
+            - the result can *only* be retrieved using the .get() method, when the computation has completed,
+            blocking (if necessary) until the value is available
+        */
         Future<Integer> productStock;
 
         // 2 - poll the executor completion service for async results --> joining (/ reducing) phase
         final List<Integer> productStocks = new ArrayList<>(submittedTasks);
         try {
             for (int i = 0; i < submittedTasks; i++) {
-                productStock = executorCompletionService.poll(2000, TimeUnit.MILLISECONDS);
+                productStock = executorCompletionService.poll(MAX_WAIT_TIME_IN_MILLIS, TimeUnit.MILLISECONDS);
 
                 if (productStock != null && productStock.isDone()) {
                     productStocks.add(productStock.get());
@@ -73,12 +80,12 @@ public class AsyncProcessingSample {
         System.out.println("The total stock of products is " + totalStock);
 
         // 3 - if needed - shutdown the executorService
-        final Optional<List<Runnable>> unfinishedTasks = Optional.ofNullable(executorService.shutdownNow());
-        unfinishedTasks.ifPresent(tasks -> System.err.println("There are " + tasks.size() + " unfinished tasks"));
+        final Optional<List<Runnable>> unfinishedTasks = Optional.of(executorService.shutdownNow());
+        unfinishedTasks.ifPresent(tasks -> System.err.println("There were " + tasks.size() + " unfinished tasks"));
     }
 
     /**
-     * The product processor queries several deposits for their stock of {@link Product}s
+     * The product processor simulates the querying of several deposits for their stock of {@link Product}s
      */
     private static class ProductProcessor implements Callable<Integer> {
         private Integer depositId;
@@ -90,7 +97,7 @@ public class AsyncProcessingSample {
         @Override
         public Integer call() throws Exception {
             final long now = System.currentTimeMillis();
-            Thread.sleep(RANDOM.nextInt(2000));
+            Thread.sleep(RANDOM.nextInt(2000)); // simulating a random duration querying
             System.out.println("[" + Thread.currentThread().getName() + "] Got the stock from the deposit "
                                        + depositId + " in " + (System.currentTimeMillis() - now) + " ms");
 
