@@ -7,7 +7,6 @@ import net.safedata.java8.training.model.Section;
 import net.safedata.java8.training.model.Store;
 import net.safedata.java8.training.model.StoreSection;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -36,24 +35,20 @@ public final class StoreSetup {
     private StoreSetup() {}
 
     private static List<Product> buildDefaultTablets() {
-        final List<Product> tablets = new ArrayList<>();
-
-        tablets.add(new Product(1, "Google Nexus 7 2013", 200, new Discount(50, Discount.Type.Value)));
-        tablets.add(new Product(2, "Apple iPad Pro 9.7", 300, new Discount(10, Discount.Type.Percent)));
-        tablets.add(new Product(3, "Samsung Galaxy Tab S2", 350));
-        tablets.add(new Product(4, "Microsoft Surface Pro 4", 400));
-
-        return tablets;
+        return Arrays.asList(
+                new Product(1, "Google Nexus 7 2013", 200, new Discount(50, Discount.Type.Value)),
+                new Product(2, "Apple iPad Pro 9.7", 300, new Discount(10, Discount.Type.Percent)),
+                new Product(3, "Samsung Galaxy Tab S2", 350),
+                new Product(4, "Microsoft Surface Pro 4", 400)
+        );
     }
 
     private static List<Product> buildDefaultMonitors() {
-        final List<Product> monitors = new ArrayList<>();
-
-        monitors.add(new Product(5, "Samsung CF791", 500));
-        monitors.add(new Product(6, "LG 32UD99", 550));
-        monitors.add(new Product(7, "Samsung CH711", 600));
-
-        return monitors;
+        return Arrays.asList(
+                new Product(5, "Samsung CF791", 500),
+                new Product(6, "LG 32UD99", 550),
+                new Product(7, "Samsung CH711", 600)
+        );
     }
 
     private static List<Product> buildDefaultLaptops() {
