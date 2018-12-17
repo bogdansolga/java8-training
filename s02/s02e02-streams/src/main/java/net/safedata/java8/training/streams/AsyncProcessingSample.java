@@ -67,7 +67,7 @@ public class AsyncProcessingSample {
                     productStocks.add(productStock.get());
                 }
             }
-        } catch (final ExecutionException | InterruptedException ex) { // catching .get() thrown exceptions
+        } catch (final ExecutionException | InterruptedException ex) { // catching .get() and .poll() thrown exceptions
             ex.printStackTrace();
         }
 
