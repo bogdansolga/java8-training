@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
 
     <name>Java 8 training</name>
-    <description>SG Java 8 training</description>
+    <description>Java 8 training</description>
 
     <modules>
         <module>domain-model</module>
