@@ -1,10 +1,12 @@
 package net.safedata.java8.training.completable.future;
 
+import java.math.BigInteger;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 /**
@@ -24,6 +26,8 @@ public class CompletableFutureMain {
         simpleProductsOperations();
 
         moreComplexProductsOperations();
+
+        parallelFactorial();
 
         shutdownExecutor();
     }
@@ -128,6 +132,7 @@ public class CompletableFutureMain {
                                                      .thenComposeAsync(getProductsDisplayText, EXECUTOR)
                                                      .whenCompleteAsync(CompletableFutureMain::processResult, EXECUTOR)
                                                      .exceptionally(Throwable::getMessage)
+                                                     .completeOnTimeout("timed-out", 5000, TimeUnit.MILLISECONDS)
                                                      .join();
         System.out.println("Got the text '" + displayedText + "'");
 
@@ -153,6 +158,21 @@ public class CompletableFutureMain {
 
     private static void notifyFinishedTasks() {
         System.out.println(Thread.currentThread().getName() + " - All good");
+    }
+
+    private static void parallelFactorial() {
+        System.out.println(divideAndConquer(10, 20).join());
+    }
+
+    private static CompletableFuture<BigInteger> divideAndConquer(int from, int to) {
+        if (from == to) {
+            if (from == 0) return CompletableFuture.completedFuture(BigInteger.ONE);
+            return CompletableFuture.completedFuture(BigInteger.valueOf(from));
+        }
+
+        int middle = (from + to) >>> 1;
+
+        return divideAndConquer(from, middle).thenCombineAsync(divideAndConquer(middle + 1, to), BigInteger::multiply);
     }
 
     private static void shutdownExecutor() {
